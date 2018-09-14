@@ -13,12 +13,12 @@
 
 <body>
 
-<table width="75%" align="center" bgcolor="#FFFF99"> 
+<table width="75%" align="center"> 
 <tr> <td align="center"></td> 
-<td align="center"><b><a href="#">커피 등록</b></td> 
-<td align="center"><b><a href="#">커피 조회</b></td>
-</tr> </table>
+<td align="center"><b><a href="./addition">커피 등록</a></td> 
+<td align="center"><b><a href="./list">커피 조회</a></td>
+</tr> 
+</table>
   
 </body>
-
 </html>
