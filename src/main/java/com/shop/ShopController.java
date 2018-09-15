@@ -17,11 +17,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class ShopController {
 	@Autowired
-	ShopRepository shopRepository;
+	ShopDAO shopRepository;
 	
 	@RequestMapping("/")
 	public String index() {
 		return "home";
+	}
+	
+	@RequestMapping("/addition")
+	public String addition() {
+		return "addition";
 	}
 	
 	@RequestMapping(value="/getCoffee", method=RequestMethod.GET)
@@ -33,20 +38,15 @@ public class ShopController {
 	}
 	
 	@PostMapping(value="/addShop")
-	public ResponseEntity<String> postCoffee(@RequestBody Shop shop) {
+	public ResponseEntity<String> postCoffee(@RequestBody ShopVO shop) {
 		System.out.println("shop name:"+shop.getName());
 		Calendar calendar = Calendar.getInstance();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy:MM:dd-hh:mm");
 		String regDate = format.format(calendar.getTime());
 		shop.setRegDate(regDate);
+		shop.setModDate(regDate);
 		shopRepository.save(shop);
 		return new ResponseEntity<>("Success", HttpStatus.OK);
 	}
-	
-	@RequestMapping("/addition")
-	public String addition() {
-		return "addition";
-	}
-
 	
 }
