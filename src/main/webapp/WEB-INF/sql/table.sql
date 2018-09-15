@@ -1,15 +1,21 @@
 create table shop(
 id INT AUTO_INCREMENT PRIMARY KEY,
-name VARCHAR(50),
-total_sale INT,
-total_money INT,
-is_deleted ENUM('y', 'n'),
-coffee VARCHAR(50)
+name VARCHAR(50) NOT NULL UNIQUE,
+total_sale INT DEFAULT '0',
+total_money INT DEFAULT '0',
+is_deleted ENUM('y', 'n') DEFAULT 'n',
 reg_date VARCHAR(20),
-up_date VARCHAR(20)
+mod_date VARCHAR(20)
 );
 
 create table menu(
-shopname VARCHAR(50),
-coffeename VARCHAR(50)
+shop_name VARCHAR(50),
+coffee_name VARCHAR(50)
+);
+
+create table sale(
+shop_name VARCHAR(50),
+coffee_name VARCHAR(50),
+total_quantity INT
+total_price INT
 );
