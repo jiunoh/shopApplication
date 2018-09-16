@@ -1,9 +1,13 @@
 package com.shop;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -19,7 +23,9 @@ public class Shop {
 	private String isDeleted;
 	private String regDate;
 	private String modDate;
-	private String menu;
+	
+	@OneToMany(mappedBy = "shop")
+	private List<Menu> menu = new ArrayList<>();
 
 	public int getId() {
 		return id;
