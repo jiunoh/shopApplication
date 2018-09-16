@@ -3,32 +3,43 @@
 <html>
 <head>
 <meta charset="ISO-8859-1" />
-<title>Demo Application</title>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<title>가게 등록</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
 <body>
 
 	가게 이름 : &nbsp;
 	<input type="text" name="shop_name" id="shop_name" />
-	<input type="button" value="등록" onclick="passToAddition();">
+	<input type="button" value="등록" onclick="addShop();">
+	<br>
+	<input type="checkbox" name="coffee" value="coffee1">coffee
+	<input type="checkbox" name="coffee" value="coffee2">coffee
+	<input type="checkbox" name="coffee" value="coffee3">coffee
+	
+</body>
+	<script>
+	
+	function getCoffees(){
+		  var coffees = "";
+		  $(":checkbox[name='coffee']:checked").each(function(pi, po){
+			  coffees += po.value+"/";
+		  });
+		  return coffees;
+	}
+	
+	function addShop() {
+		var info = {}
+		info["shopName"] = $("#shop_name").val();
+		info["menu"] = getCoffees();
 
-	<script>   
-   function passToAddition() {
-      
-      var modelObj = {
-            name: $("#shop_name").val()
-      };
-      
-      console.log("post data:"+modelObj);      
-      
-		 $.ajax({
+	   $.ajax({
 	            type: "POST",
 	            url: "/addShop",
 	            headers: {
 	                "Content-Type": "application/json"
 	            },
-	            data: JSON.stringify(modelObj),
+	            data: JSON.stringify(info),
 	            success: function (data) {
 	            	console.log("POST API RESPONSE::"+data);
 	            },
@@ -36,6 +47,6 @@
 	            }
 	        });
    }
+
    </script>
-</body>
 </html>
