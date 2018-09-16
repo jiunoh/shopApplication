@@ -8,18 +8,19 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="shop")
-public class ShopVO {
+public class Shop {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
+	
 	private String name;
 	private int totalSale;
-	private int totalMoney;
+	private int totalMoney;	
 	private String isDeleted;
-	private String coffeeName;
 	private String regDate;
 	private String modDate;
-	
+	private String menu;
+
 	public int getId() {
 		return id;
 	}
@@ -49,12 +50,12 @@ public class ShopVO {
 	}
 	public void setIsDeleted(String isDeleted) {
 		this.isDeleted = isDeleted;
+	}	
+	public String getMenu() {
+		return menu;
 	}
-	public String getCoffeeName() {
-		return coffeeName;
-	}
-	public void setCoffeeName(String coffeeName) {
-		this.coffeeName = coffeeName;
+	public void setMenu(String menu) {
+		this.menu = menu;
 	}
 	public String getRegDate() {
 		return regDate;
@@ -68,4 +69,5 @@ public class ShopVO {
 	public void setModDate(String modDate) {
 		this.modDate = modDate;
 	}
+	
 }
