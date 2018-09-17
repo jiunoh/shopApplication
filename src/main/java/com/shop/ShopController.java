@@ -34,7 +34,7 @@ public class ShopController {
 	
 	@RequestMapping(value="/list")
 	public String getShopList(Model model) {
-		List<Shop> shopList = shopRepository.findAll();
+		List<Shop> shopList = shopRepository.findByIsDeleted("n");
 		model.addAttribute("shopList", shopList);
 		System.out.println(shopList);
 		return "list";
