@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +41,7 @@ public class ShopController {
 		return "list";
 	}
 	
-	@PostMapping(value="/addShop")
+	@RequestMapping(value="/addShop")
 	public ResponseEntity<String> addShop(@RequestBody Map<String, Object> shopInfo) {
 		Shop shop = new Shop();
 		shop.setName(shopInfo.get("shopName").toString());		
@@ -51,6 +52,14 @@ public class ShopController {
 		shop.setModDate(regDate);
 		shop.setMenu(shopInfo.get("menu").toString());
 		shop.setIsDeleted("n");
+		shopRepository.save(shop);
+		return new ResponseEntity<>("Success", HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="deleteShop/{id}")
+	public ResponseEntity<String> deleteShop(@PathVariable int id) {
+		Shop shop = shopRepository.findById(id);
+		shop.setIsDeleted("y");
 		shopRepository.save(shop);
 		return new ResponseEntity<>("Success", HttpStatus.OK);
 	}
