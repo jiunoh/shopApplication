@@ -42,7 +42,7 @@ public class ShopController {
 	}
 	
 	@RequestMapping(value="/addShop")
-	public ModelAndView addShop(@RequestBody Map<String, Object> shopInfo) {
+	public String addShop(@RequestBody Map<String, Object> shopInfo) {
 		Shop shop = new Shop();
 		shop.setName(shopInfo.get("shopName").toString());		
 		Calendar calendar = Calendar.getInstance();
@@ -53,17 +53,15 @@ public class ShopController {
 		shop.setMenu(shopInfo.get("menu").toString());
 		shop.setIsDeleted("n");
 		shopRepository.save(shop);
-		String url = "redirect:/list";
-		return new ModelAndView(url);
+		return "redirect:/list";
 	}
 	
 	@RequestMapping(value="deleteShop/{id}")
-	public ModelAndView deleteShop(@PathVariable int id) {
+	public String deleteShop(@PathVariable int id) {
 		Shop shop = shopRepository.findById(id);
 		shop.setIsDeleted("y");
 		shopRepository.save(shop);
-		String url = "redirect:/list";
-		return new ModelAndView(url);
+		return "redirect:/list";
 	}
 	
 	@RequestMapping(value="/modification/{id}")
@@ -74,7 +72,7 @@ public class ShopController {
 	}
 	
 	@RequestMapping(value="/updateShop/{id}")
-	public ModelAndView updateShop(@RequestBody Map<String, Object> shopInfo, @PathVariable int id) {
+	public String updateShop(@RequestBody Map<String, Object> shopInfo, @PathVariable int id) {
 		Shop shop = shopRepository.findById(id);
 		shop.setName(shopInfo.get("shopName").toString());		
 		Calendar calendar = Calendar.getInstance();
@@ -83,8 +81,17 @@ public class ShopController {
 		shop.setModDate(regDate);
 		shop.setMenu(shopInfo.get("menu").toString());
 		shopRepository.save(shop);
-		String url = "redirect:/list";
 		System.out.print(id+" "+shop.getName());
-		return new ModelAndView(url);
+		return "redirect:/list";
 	}
+	
+	@RequestMapping(value="/details/{id}")
+	public String getDetails(Model model, @PathVariable int id) {
+		Shop shop = shopRepository.findById(id);
+		Shop shop2 = shopRepository.findById(id);
+		model.addAttribute("shop", shop);
+		model.addAttribute("shop2", shop2);
+		return "details";
+	}
+	
 }

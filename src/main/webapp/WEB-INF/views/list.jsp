@@ -17,10 +17,8 @@
       <tr>
          <th>이름</th>
          <th>등록일</th>
-         <th>수정일</th>
-         <th>판매량</th>
-         <th>판매액</th>
          <th>메뉴</th>
+         <th>자세히</th>
          <th>삭제</th>
          <th>수정</th>
       </tr>
@@ -29,18 +27,19 @@
       <tr>
          <td>${shop.name}</td>
          <td>${shop.regDate}</td>
-         <td>${shop.modDate}</td>
-         <td>${shop.totalSale}</td>         
-         <td>${shop.totalMoney}</td>
          <td>${shop.menu}</td>
          <td>
-         <spring:url value="/deleteShop/${shop.id}" var="deleteById" />
+	         <spring:url value="/details/${shop.id}" var="detailsById" />
+             <a href="${detailsById}">자세히</a>
+         </td>
+         <td>
+	         <spring:url value="/deleteShop/${shop.id}" var="deleteById" />
              <a href="${deleteById}">삭제</a>
              </td>
-             <td>
+         <td>
              <spring:url value="/modification/${shop.id }" var="updateById" />
              <a href="${updateById }">수정</a>
-             </td>
+         </td>
       </tr>
    </c:forEach>
 </table>
