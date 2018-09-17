@@ -13,10 +13,12 @@
 	<input type="text" name="shop_name" id="shop_name" />
 	<input type="button" value="등록" onclick="addShop();">
 	<br>
-	<input type="checkbox" name="coffee" value="coffee1">coffee
-	<input type="checkbox" name="coffee" value="coffee2">coffee
-	<input type="checkbox" name="coffee" value="coffee3">coffee
+	<input type="checkbox" name="coffee" value="coffee1">coffee1
+	<input type="checkbox" name="coffee" value="coffee2">coffee2
+	<input type="checkbox" name="coffee" value="coffee3">coffee3
 	
+	<input type ="button" value="메인으로" onclick="location.href='/'">
+	<input type="button" value="목록으로" onClick="location.href='/list'"></body>
 </body>
 	<script>
 	

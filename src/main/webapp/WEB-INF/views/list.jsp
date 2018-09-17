@@ -20,6 +20,7 @@
          <th>수정일</th>
          <th>판매량</th>
          <th>판매액</th>
+         <th>메뉴</th>
          <th>삭제</th>
          <th>수정</th>
       </tr>
@@ -30,20 +31,21 @@
          <td>${shop.regDate}</td>
          <td>${shop.modDate}</td>
          <td>${shop.totalSale}</td>         
-         <td>${shop.totalMoney}</td>         
+         <td>${shop.totalMoney}</td>
+         <td>${shop.menu}</td>
          <td>
          <spring:url value="/deleteShop/${shop.id}" var="deleteById" />
              <a href="${deleteById}">삭제</a>
              </td>
              <td>
-             <spring:url value="/updateShop/${shop.id }" var="updateById" />
+             <spring:url value="/modification/${shop.id }" var="updateById" />
              <a href="${updateById }">수정</a>
              </td>
       </tr>
    </c:forEach>
 </table>
 
-<input type ="button" value="메인으로가기" onclick="location.href='/index'">
+<input type ="button" value="메인으로" onclick="location.href='/'">
 <input type="button" value="등록확인" onClick="history.go(0)"></body>
 
 </body>
