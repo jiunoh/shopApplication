@@ -1,5 +1,6 @@
 package com.shop;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,11 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-@Entity
-@Table(name="shop")
-public class Shop {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+public class Shop implements Serializable {
 	private int id;
 	
 	private String name;
@@ -23,9 +20,6 @@ public class Shop {
 	private String isDeleted;
 	private String regDate;
 	private String modDate;
-	
-	@OneToMany(mappedBy = "shop")
-	private List<Menu> menu = new ArrayList<>();
 
 	public int getId() {
 		return id;
@@ -57,12 +51,6 @@ public class Shop {
 	public void setIsDeleted(String isDeleted) {
 		this.isDeleted = isDeleted;
 	}	
-	public String getMenu() {
-		return menu;
-	}
-	public void setMenu(String menu) {
-		this.menu = menu;
-	}
 	public String getRegDate() {
 		return regDate;
 	}

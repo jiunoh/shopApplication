@@ -1,8 +1,8 @@
 package com.shop;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface MenuDAO extends JpaRepository<Menu, String> {
-	String findByShopName(String shopName);
-	String findByCoffeeName(String coffeeName);
+@Repository
+public interface MenuDAO {
+	void registMenu(Menu menu);
 }

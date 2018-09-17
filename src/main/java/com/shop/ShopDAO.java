@@ -1,9 +1,8 @@
 package com.shop;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.apache.ibatis.annotations.Mapper;
 
-public interface ShopDAO extends JpaRepository<Shop, Integer>  {
-	Shop findById(int id);
-	Shop findByName(String name);
-	Shop findByNameAndIsDeleted(String name, String isDeleted);
+@Mapper
+public interface ShopDAO {
+	void registShop(Shop shop);
 }
