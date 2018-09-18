@@ -12,52 +12,31 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">		</script>
 </head>
 <body>
-<table>
-   <thead>
-      <tr>
-         <th>이름</th>
-         <th>등록일</th>
-         <th>메뉴</th>
-         <th>자세히</th>
-         <th>삭제</th>
-         <th>수정</th>
-      </tr>
-   </thead>
-   <c:forEach items="${shopList}" var="shop">
-      <tr>
-         <td>${shop.name}</td>
-         <td>${shop.regDate}</td>
-         <td>${shop.menu}</td>
-         <td>
-	         <spring:url value="/details/${shop.id}" var="detailsById" />
-             <a href="${detailsById}">자세히</a>
-         </td>
-         <td>
-	         <spring:url value="/deleteShop/${shop.id}" var="deleteById" />
-             <a href="${deleteById}">삭제</a>
-             </td>
-         <td>
-             <spring:url value="/modification/${shop.id }" var="updateById" />
-             <a href="${updateById }">수정</a>
-         </td>
-      </tr>
-   </c:forEach>
-</table>
 
-<input type ="button" value="메인으로" onclick="location.href='/'">
-<input type="button" value="등록확인" onClick="history.go(0)"></body>
+	<div>
+		<div class="item" id="item"></div>
+    </div>
+
+<a href='/'>홈으로 돌아가기</a>
 
 </body>
 <script>
-function getDataFromAPI() {
+
+$(document).ready(function() {
     $.ajax({
-        url: "/list",
         type: "GET",
+        url: "list/getShopList",
         success: function (data) {
-        	
+      	  var items = [];
+      	  $.each(data, function() {
+      		  items.push("<h4>"+this.name+"</h4> <ul> <li> 등록: "+this.regDate+"</li><li>메뉴: "+this.menu
+				+"</li><br><a href='/deleteShop/"+this.id+"'>삭제</a> &nbsp; <a href='/modification/"+this.id+"'>수정</a> &nbsp; <a href='/details/"+this.id+"+'자세히</a>")
+      	  });
+                $('.item').append(items);
         }, error: function (jqXHR, textStatus, errorThrown) {
         }
    });
-}
+});
+
 </script>
 </html>

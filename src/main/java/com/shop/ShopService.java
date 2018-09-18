@@ -49,6 +49,10 @@ public class ShopService {
 		return shopRepository.findByIsDeleted("n");
 	}
 	
+	public List<Shop> getShopListByCoffee(String coffee) {
+		return shopRepository.findByMenuContaining(coffee);
+	}
+	
 	private String getCurrentDate() {
 		Calendar calendar = Calendar.getInstance();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd-hh:mm");
