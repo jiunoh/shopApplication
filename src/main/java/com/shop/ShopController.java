@@ -40,7 +40,7 @@ public class ShopController {
 		return "list";
 	}
 	
-	@GetMapping(value="list/getShopList")
+	@GetMapping(value="/list/getShopList")
 	public @ResponseBody ArrayList<Shop> getShopList() {
 		List<Shop> shopList = shopService.getShopList();
 		return (ArrayList<Shop>) shopList;
@@ -72,10 +72,15 @@ public class ShopController {
 	}
 	
 	@RequestMapping(value="/details/{id}")
-	public String getDetails(Model model, @PathVariable int id) {
-		Shop shop = shopService.getShop(id);
-		model.addAttribute("shop", shop);
+	public String details(Model model, @PathVariable int id) {
 		return "details";
+	}
+	
+	@GetMapping(value="/details/getDetails/{id}")
+	public @ResponseBody Shop getDetails(@PathVariable int id) {
+		Shop shop = shopService.getShop(id);
+		System.out.println(shop.getName());
+		return shop;
 	}
 	
 	@CrossOrigin(origins = { "*" })

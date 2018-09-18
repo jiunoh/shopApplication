@@ -7,47 +7,41 @@
 <html>
 <head>
 <meta charset="ISO-8859-1" />
-<title>상세 정보</title>
+<title>자세히 보기</title>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">		</script>
 </head>
 <body>
-<table>
-   <thead>
-      <tr>
-         <th>이름</th>
-         <th>등록일</th>
-         <th>수정일</th>
-         <th>판매량</th>
-         <th>판매액</th>         
-      </tr>
-   </thead>
-      <tr>
-         <td>${shop.name}</td>
-         <td>${shop.regDate}</td>
-         <td>${shop.modDate}</td>
-         <td>${shop.totalSale}</td>         
-         <td>${shop.totalMoney}</td>
-      </tr>
-</table>
-      
-      </br>
-      <h4>현재 메뉴: </h4>
-      <table>
-      <tr>
-      	<th>이름</th>
-      	<th>가격</th>      	
-      	<th>재고</th>
-      	<th>판매량</th>      	
-      	<th>판매액</th>      	
-      	<th>등록일</th>
-      	<th>수정일</th>
-      </tr>
-      </table>
 
+	<div>
+		<div class="item" id="item"></div>
+    </div>
 
-<input type ="button" value="메인으로" onclick="location.href='/'">
-<input type="button" value="등록확인" onClick="history.go(0)"></body>
+<a href='/'>홈으로 돌아가기</a>
 
 </body>
+<script>
+
+$(document).ready(function() {
+	url = window.location.pathname; 
+	id = url.substr(url.length-2, 2);
+	console.log(id);
+    $.ajax({
+        type: "GET",
+        url: "/details/getDetails/"+id,
+        success: function (data) {
+      	  var items = [];
+	      console.log(data);
+	      console.log(data.name);
+     	  items.push("<h4>"+data.name+"</h4> 등록: "+data.regDate+"<br>수정: "+data.modDate+"<br>"+"총 판매량: "+data.totalSale
+     			  +"<br>총 매출: "+data.totalMoney+"<br><br>"
+     			  +""
+			+"<a href='/deleteShop/"+data.id+"'>삭제</a> &nbsp; <a href='/modification/"+data.id+"'>수정</a>")
+          $('.item').append(items);
+        }, error: function (jqXHR, textStatus, errorThrown) {
+        }
+   });
+});
+
+</script>
 </html>
