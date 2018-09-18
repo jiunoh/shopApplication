@@ -43,7 +43,7 @@
 	            },
 	            data: JSON.stringify(info),
 	            success: function (data) {
-	            	console.log("POST API RESPONSE::"+data);
+	            	window.location.replace("/list");
 	            },
 	            error: function (jqXHR, textStatus, errorThrown) {
 	            }
