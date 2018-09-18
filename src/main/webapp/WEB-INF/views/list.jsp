@@ -25,12 +25,12 @@
 $(document).ready(function() {
     $.ajax({
         type: "GET",
-        url: "list/getShopList",
+        url: "/list/getShopList",
         success: function (data) {
       	  var items = [];
       	  $.each(data, function() {
       		  items.push("<h4>"+this.name+"</h4> <ul> <li> 등록: "+this.regDate+"</li><li>메뉴: "+this.menu
-				+"</li><br><a href='/deleteShop/"+this.id+"'>삭제</a> &nbsp; <a href='/modification/"+this.id+"'>수정</a> &nbsp; <a href='/details/"+this.id+"+'자세히</a>")
+				+"</li><br><a href='/deleteShop/"+this.id+"'>삭제</a> &nbsp; <a href='/modification/"+this.id+"'>수정</a> &nbsp; <a href='/details/"+this.id+"'>자세히</a>")
       	  });
                 $('.item').append(items);
         }, error: function (jqXHR, textStatus, errorThrown) {
