@@ -9,5 +9,5 @@ public interface ShopDAO extends JpaRepository<Shop, Integer>  {
 	Shop findByName(String name);
 	List<Shop> findByIsDeleted(String isDeleted);
 	Shop findByNameAndIsDeleted(String name, String isDeleted);
-	String findByMenuContaining(String coffee);
+	List<Shop> findByMenuContaining(String coffee);	
 }
