@@ -14,15 +14,11 @@
 <body>
 
 	가게 이름 : &nbsp;
-	<input type="text" name="shop_name" id="shop_name" value="${shop.name}" />
+	<input type="text" name="shop_name" id="shop_name"/>
 	<input type="button" value="등록" onclick="updateShop();">
-	<input type="hidden" id="id" name="id" value="${shop.id}">
 	<br>
 	<h4>현재 메뉴: </h4>
-	<ul>
-	<c:forTokens var="coffee" items="${shop.menu}" delims="/">
-		<li>${coffee}</li>
-	</c:forTokens>
+	<ul id="list">
 	</ul>
 	
 	<input type="checkbox" name="coffee" value="coffee1">coffee1
@@ -33,6 +29,26 @@
 	
 </body>
 	<script>
+	
+	$(document).ready(function() {
+		url = window.location.pathname; 
+		id = url.substr(url.length-2, 2);
+	    $.ajax({
+	        type: "GET",
+	        url: "/details/getDetails/"+id,
+	        success: function (data) {
+	          document.getElementById('shop_name').value=data.name;
+	          var menu = (data.menu).split("/");
+ 	  		  console.log(menu[0]);
+ 	  		  for (var i=0; i<menu.length-1; i++) {
+ 		      	var li = document.createElement("li");
+ 		      	li.appendChild(document.createTextNode(menu[i]));
+ 		      	document.getElementById('list').appendChild(li); 	  			  
+ 	  		  }
+	        }, error: function (jqXHR, textStatus, errorThrown) {
+	        }
+	   });
+	});
 	
 	function getCoffees(){
 		  var coffees = "";
@@ -46,17 +62,19 @@
 		var info = {}
 		info["shopName"] = $("#shop_name").val();
 		info["menu"] = getCoffees();
-		id = $("#id").val();
+		url = window.location.pathname; 
+		id = url.substr(url.length-2, 2);
 
 	   $.ajax({
 	            type: "POST",
-	            url: "/updateShop/"+id,
+	            url: "/modification/updateShop/"+id,
 	            headers: {
 	                "Content-Type": "application/json"
 	            },
 	            data: JSON.stringify(info),
 	            success: function (data) {
 	            	console.log("POST API RESPONSE::"+data);
+	            	window.location.replace("/list");
 	            },
 	            error: function (jqXHR, textStatus, errorThrown) {
 	            	console.log(textStatus);

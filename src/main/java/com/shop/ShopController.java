@@ -65,10 +65,10 @@ public class ShopController {
 		return "modification";
 	}
 	
-	@RequestMapping(value="/updateShop/{id}")
-	public String updateShop(@RequestBody Map<String, Object> shopInfo, @PathVariable int id) {
+	@RequestMapping(value="/modification/updateShop/{id}")
+	public ResponseEntity<String> updateShop(@RequestBody Map<String, Object> shopInfo, @PathVariable int id) {
 		shopService.updateShop(shopInfo, id);
-		return "redirect:/list";
+		return new ResponseEntity<>("Success", HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/details/{id}")
