@@ -38,6 +38,8 @@ public class ShopService {
 		Shop shop = shopRepository.findById(id);
 		shop.setIsDeleted("y");
 		shop.setMenu(null);
+		shop.setRegDate(null);
+		shop.setModDate(null);
 		shopRepository.save(shop);
 	}
 	
