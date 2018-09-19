@@ -58,7 +58,7 @@
 	    	  console.log(data);
 	    	  console.log(data[0].coffeeName);
 	    	  for (var i=0; i<data.length; i++) {
-	      		  items.push('<input type="checkbox" name="coffee" value="'+data[i].coffeeName+'">'+data[i].coffeeName+"<br>")
+	      		  items.push('<input type="checkbox" name="coffee" value="'+data[i].id+'">'+data[i].name+"<br>")
 	    	  }
 	    	  items.push('<br>');
 	          $('.item').append(items);
@@ -81,7 +81,8 @@
 		info["shopName"] = $("#shop_name").val();
 		info["menu"] = getCoffees();
 		url = window.location.pathname; 
-		id = url.substr(url.length-2, 2);
+		splitted = url.split("/");
+		id = splitted[splitted.length-1];
 
 	   $.ajax({
 	            type: "POST",

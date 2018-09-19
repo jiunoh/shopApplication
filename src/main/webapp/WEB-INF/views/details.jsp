@@ -23,8 +23,9 @@
 <script>
 
 $(document).ready(function() {
-	url = window.location.pathname; 
-	id = url.substr(url.length-2, 2);
+	url = window.location.pathname;
+	splitted = url.split("/");
+	id = splitted[splitted.length-1];
 	console.log(id);
     $.ajax({
         type: "GET",
