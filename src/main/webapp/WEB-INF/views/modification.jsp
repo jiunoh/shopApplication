@@ -39,7 +39,7 @@
 	        url: "/details/getDetails/"+id,
 	        success: function (data) {
 	          document.getElementById('shop_name').value=data.name;
-	          var menu = (data.menu).split("/");
+	          var menu = (data.menu).split(",");
  	  		  console.log(menu[0]);
  	  		  for (var i=0; i<menu.length-1; i++) {
  		      	var li = document.createElement("li");

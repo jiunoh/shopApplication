@@ -30,9 +30,9 @@
 	        success: function (data) {
 	      	  var items = [];
 	    	  console.log(data);
-	    	  console.log(data[0].coffeeName);
+	    	  console.log(data[0].name);
 	    	  for (var i=0; i<data.length; i++) {
-	      		  items.push('<input type="checkbox" name="coffee" value="'+data[i].coffeeName+'">'+data[i].coffeeName+"<br>")
+	      		  items.push('<input type="checkbox" name="coffee" value="'+data[i].id+'">'+data[i].name+"<br>")
 	    	  }
 	    	  items.push('<br>');
 	          $('.item').append(items);
@@ -44,7 +44,7 @@
 	function getCoffees(){
 		  var coffees = "";
 		  $(":checkbox[name='coffee']:checked").each(function(pi, po){
-			  coffees += po.value+"/";
+			  coffees += po.value+",";
 		  });
 		  return coffees;
 	}

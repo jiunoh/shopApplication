@@ -1,6 +1,7 @@
 package com.shop;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,11 +20,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+@CrossOrigin(origins = "*")
 @Controller
 public class ShopController {
 	
 	@Autowired
 	ShopService shopService;
+	
+	@Autowired
+	CoffeeDAO coffeeRepository;
 	
 	@RequestMapping("/")
 	public String index() {
@@ -40,12 +45,13 @@ public class ShopController {
 		return "list";
 	}
 	
-	@GetMapping(value="/list/getShopList")
-	public @ResponseBody ArrayList<Shop> getShopList() {
-		List<Shop> shopList = shopService.getShopList();
-		return (ArrayList<Shop>) shopList;
-	}
-	
+	//리스트 화면에 사용
+    @GetMapping(value="/list/getShopList")
+    public @ResponseBody ArrayList<Shop> getShopList() {
+        List<Shop> shopList = shopService.getShopList();
+        return (ArrayList<Shop>) shopList;
+    }        
+		
 	@PostMapping(value="/addShop")
 	public ResponseEntity<String> addShop(@RequestBody Map<String, Object> shopInfo) {
 		shopService.addShop(shopInfo);
@@ -79,14 +85,48 @@ public class ShopController {
 	@GetMapping(value="/details/getDetails/{id}")
 	public @ResponseBody Shop getDetails(@PathVariable int id) {
 		Shop shop = shopService.getShop(id);
-		System.out.println(shop.getName());
 		return shop;
 	}
 	
-	@CrossOrigin(origins = { "*" })
-	@RequestMapping(value="/demoCORS")
-	public List<Shop> doCORS(String coffee) {
-		return shopService.getShopListByCoffee(coffee);
+
+	/////////////////////////////////////////////////////
+	@GetMapping(value="/test/{coffee}")
+	public @ResponseBody ArrayList<Shop> getShopList(@PathVariable String coffee) {
+		List<Shop> shopList = shopService.getShopListByCoffee(","+coffee+",");
+		return (ArrayList<Shop>) shopList;
 	}
+
+	
+	@CrossOrigin("*")
+	@RequestMapping(value="/demoCORS")
+	public @ResponseBody String doCORS() {
+		return "hello";
+	}
+	
+	/* 
+	 * 커피를 파는 샵 리스트를 보내줌 (파라미터: 커피 id)
+	 * */
+	@CrossOrigin("*")
+	@GetMapping(value="/getShopListByCoffee/{id}")
+	public @ResponseBody ArrayList<Shop> getShopListByCoffee(@PathVariable String id) {
+		List<Shop> shopList = shopService.getShopListByCoffee("/"+id+"/");
+		return (ArrayList<Shop>) shopList;
+	}
+	
+	/*
+	 * 메뉴 스트링을 받아와서 커피 정보 수정 또는 삭제가 없었는지를 검사하고 커피 객체 리스트를 다시 돌려주는 메소드
+	 * */
+//	@GetMapping(value="/getMenuFromCoffee") 
+//	public @ResponseBody ArrayList<Coffee> getMenuFromCoffee(String menuString) {
+//		Map<String, String> coffee = new HashMap<>();
+//		String menu[] = menuString.split(",");
+//		for (int i=0; i<menu.length; i++) {
+//			coffee.put(key, value)
+//			Coffee coffee = coffeeRepository.findById(Integer.parseInt(menu[i]));
+//			if (coffee != null)
+//				coffeeList.add(coffee);
+//		}
+//		return coffeeList;
+//	}
 	
 }
