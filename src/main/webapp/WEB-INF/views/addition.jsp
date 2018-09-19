@@ -13,14 +13,33 @@
 	<input type="text" name="shop_name" id="shop_name" />
 	<input type="button" value="등록" onclick="addShop();">
 	<br>
-	<input type="checkbox" name="coffee" value="coffee1">coffee1
-	<input type="checkbox" name="coffee" value="coffee2">coffee2
-	<input type="checkbox" name="coffee" value="coffee3">coffee3
+	<br>
+	<div>
+		<div class="item" id="item"></div>
+    </div>
 	
 	<input type ="button" value="메인으로" onclick="location.href='/'">
 	<input type="button" value="목록으로" onClick="location.href='/list'"></body>
 </body>
 	<script>
+	
+	$(document).ready(function() {
+	    $.ajax({
+	        type: "GET",
+	        url: "/getCoffeeList",
+	        success: function (data) {
+	      	  var items = [];
+	    	  console.log(data);
+	    	  console.log(data[0].coffeeName);
+	    	  for (var i=0; i<data.length; i++) {
+	      		  items.push('<input type="checkbox" name="coffee" value="'+data[i].coffeeName+'">'+data[i].coffeeName+"<br>")
+	    	  }
+	    	  items.push('<br>');
+	          $('.item').append(items);
+	        }, error: function (jqXHR, textStatus, errorThrown) {
+	        }
+	   });
+	});
 	
 	function getCoffees(){
 		  var coffees = "";
