@@ -25,7 +25,7 @@
 		<div class="item" id="item"></div>
     </div>
     
-	<input type ="button" value="메인으로" onclick="location.href='/home'">
+	<input type ="button" value="메인으로" onclick="location.href='/'">
 	<input type="button" value="목록으로" onClick="location.href='/list'"></body>
 	
 </body>
@@ -33,15 +33,16 @@
 	
 	$(document).ready(function() {
 		url = window.location.pathname; 
-		id = url.substr(url.length-2, 2);
-	    $.ajax({
+		splitted = url.split("/");
+		id = splitted[splitted.length-1];
+	    $.ajax({ //샵 디테일을 가져오는 부분
 	        type: "GET",
 	        url: "/details/getDetails/"+id,
 	        success: function (data) {
 	          document.getElementById('shop_name').value=data.name;
-	          var menu = (data.menu).split(",");
- 	  		  console.log(menu[0]);
- 	  		  for (var i=0; i<menu.length-1; i++) {
+	          var menu = (getCoffeeNames(data.menu)).split(",");
+ 	  		  console.log(menu);
+ 	  		  for (var i=0; i<menu.length; i++) {
  		      	var li = document.createElement("li");
  		      	li.appendChild(document.createTextNode(menu[i]));
  		      	document.getElementById('list').appendChild(li); 	  			  
@@ -50,13 +51,13 @@
 	        }
 	   });
 	    
-	    $.ajax({
+	    $.ajax({ //커피에서 커피 종류 전체를 가져오는 부분
 	        type: "GET",
 	        url: "/getCoffeeList",
+            crossOrigin: true,
+            async: false,
 	        success: function (data) {
 	      	  var items = [];
-	    	  console.log(data);
-	    	  console.log(data[0].coffeeName);
 	    	  for (var i=0; i<data.length; i++) {
 	      		  items.push('<input type="checkbox" name="coffee" value="'+data[i].id+'">'+data[i].name+"<br>")
 	    	  }
@@ -68,15 +69,15 @@
 
 	});
 		
-	function getCoffees(){
-		  var coffees = "";
+	function getCoffees(){ //체크박스에 체크된 메뉴들을 가져와서 스트링으로 리턴
+		  var coffees = ",";
 		  $(":checkbox[name='coffee']:checked").each(function(pi, po){
-			  coffees += po.value+"/";
+			  coffees += po.value+",";
 		  });
 		  return coffees;
 	}
 	
-	function updateShop() {
+	function updateShop() { //실제 업데이트 로직
 		var info = {}
 		info["shopName"] = $("#shop_name").val();
 		info["menu"] = getCoffees();
@@ -101,5 +102,27 @@
 	        });
    }
 
+	function getCoffeeNames(menu){
+	    coffeeNames = "";
+	    menuString = menu.slice(1);
+	    $.ajax({
+	            url: "/getCoffees/"+menuString,
+	            type: "GET",
+	            crossOrigin: true,
+	            async: false,
+	            success: function (data) {
+	            	for (var i=0; i<data.length; i++) {
+	                    coffeeNames += data[i].name+",";            		
+	            	}
+	            }, error: function (request,status,error) {
+	               console.log(request.status);
+	            },
+	            complete : function() {
+	               console.log("getcoffeenames 완료:"+coffeeNames);
+	            }
+	       });
+	    return coffeeNames.slice(0, -1);    
+	}
+	
    </script>
 </html>
