@@ -31,7 +31,7 @@ $(document).ready(function() {
       	  $.each(data, function() {
       		  items.push("<h4>"+this.name+"</h4> <ul> <li> 등록: "+this.regDate+"</li><li>메뉴: "
       				  +getCoffeeNames(this.menu)
-				+"</li><br><a href='/deleteShop/"+this.id+"'>삭제</a> &nbsp; <a href='/modification/"+this.id+"'>수정</a> &nbsp; <a href='/details/"+this.id+"'>자세히</a>")
+				+"</li> <br><a href='/details/"+this.id+"'>자세히</a>")
       	  });
                 $('.item').append(items);
         }, error: function (jqXHR, textStatus, errorThrown) {
@@ -39,10 +39,11 @@ $(document).ready(function() {
    });
 });
 
-function getCoffeeNames(menuString){
+function getCoffeeNames(menu){
     coffeeNames = "";
+    menuString = menu.slice(1);
     $.ajax({
-            url: "/getCoffeeNames/"+menuString,
+            url: "/getCoffees/"+menuString,
             type: "GET",
             crossOrigin: true,
             async: false,
