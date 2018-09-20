@@ -29,7 +29,8 @@ $(document).ready(function() {
         success: function (data) {
       	  var items = [];
       	  $.each(data, function() {
-      		  items.push("<h4>"+this.name+"</h4> <ul> <li> 등록: "+this.regDate+"</li><li>메뉴: "+this.menu
+      		  items.push("<h4>"+this.name+"</h4> <ul> <li> 등록: "+this.regDate+"</li><li>메뉴: "
+      				  +getCoffeeNames(this.menu)
 				+"</li><br><a href='/deleteShop/"+this.id+"'>삭제</a> &nbsp; <a href='/modification/"+this.id+"'>수정</a> &nbsp; <a href='/details/"+this.id+"'>자세히</a>")
       	  });
                 $('.item').append(items);
@@ -38,5 +39,26 @@ $(document).ready(function() {
    });
 });
 
+function getCoffeeNames(menuString){
+    coffeeNames = "";
+    $.ajax({
+            url: "/getCoffeeNames/"+menuString,
+            type: "GET",
+            crossOrigin: true,
+            async: false,
+            success: function (data) {
+            	for (var i=0; i<data.length; i++) {
+                	console.log("for문 "+i+": "+data[i].name);
+                    coffeeNames += data[i].name+", ";            		
+            	}
+            }, error: function (request,status,error) {
+               console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            },
+            complete : function() {
+               console.log("getcoffeenames 완료:"+coffeeNames);
+            }
+       });
+    return coffeeNames.slice(0, -2);    
+}
 </script>
 </html>

@@ -95,31 +95,41 @@ public class ShopController {
 		return shop;
 	}
 	
-
-	/////////////////////////////////////////////////////
-	@GetMapping(value="/test/{coffee}")
-	public @ResponseBody ArrayList<Shop> getShopList(@PathVariable String coffee) {
-		List<Shop> shopList = shopService.getShopListByCoffee(","+coffee+",");
-		return (ArrayList<Shop>) shopList;
-	}
-
-	
-	@CrossOrigin("*")
-	@RequestMapping(value="/demoCORS")
-	public @ResponseBody String doCORS() {
-		return "hello";
-	}
-	
 	/* 
 	 * 커피를 파는 샵 리스트를 보내줌 (파라미터: 커피 id)
 	 * */
 	@CrossOrigin("*")
 	@GetMapping(value="/getShopListByCoffee/{id}")
 	public @ResponseBody ArrayList<Shop> getShopListByCoffee(@PathVariable String id) {
-		List<Shop> shopList = shopService.getShopListByCoffee("/"+id+"/");
+		List<Shop> shopList = shopService.getShopListByCoffee(","+id+",");
+		return (ArrayList<Shop>) shopList;
+	}
+
+	
+	
+	/////////////////////////////////////////////////////
+	@GetMapping(value="/test/{coffee}")
+	public @ResponseBody ArrayList<Shop> getShopList(@PathVariable String coffee) {
+		List<Shop> shopList = shopService.getShopListByCoffee(","+coffee+",");
 		return (ArrayList<Shop>) shopList;
 	}
 	
+	@GetMapping(value="/getCoffeeNames/{menuString}")
+	public @ResponseBody ArrayList<Coffee> getCoffeeNames(@PathVariable String menuString) {
+		String menu[] = menuString.split(",");
+		ArrayList<Coffee> coffeeList = new ArrayList<Coffee>();
+		for (int i=0; i<menu.length; i++) {
+			Coffee coffee = coffeeRepository.findById(Integer.parseInt(menu[i]));
+			if (coffee != null)
+				coffeeList.add(coffee);
+		}
+		return coffeeList;
+	}
+	
+	@GetMapping (value = "/getCoffeeList")
+	public @ResponseBody List<Coffee> getCoffeeList() {
+		return coffeeRepository.findAll();
+	}
 	/*
 	 * 메뉴 스트링을 받아와서 커피 정보 수정 또는 삭제가 없었는지를 검사하고 커피 객체 리스트를 다시 돌려주는 메소드
 	 * */
