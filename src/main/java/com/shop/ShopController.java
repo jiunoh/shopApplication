@@ -29,59 +29,66 @@ public class ShopController {
 	
 	@Autowired
 	CoffeeDAO coffeeRepository;
-	
+
+	//홈으로 이동
 	@RequestMapping("/")
 	public String index() {
 		return "home";
 	}
-		
+	
+	//샵 등록 페이지로 이동
 	@RequestMapping("/addition")
 	public String addition() {
 		return "addition";
 	}
 	
+	//리스트 페이지로 이동
 	@GetMapping(value="/list")
 	public String list(){
 		return "list";
 	}
 	
-	//리스트 화면에 사용
+	//리스트 화면에 사용할 샵들의 객체를 리스트로 보낸다.
     @GetMapping(value="/list/getShopList")
     public @ResponseBody ArrayList<Shop> getShopList() {
         List<Shop> shopList = shopService.getShopList();
         return (ArrayList<Shop>) shopList;
     }        
-		
+    
+    //샵 등록을 수행한다.
 	@PostMapping(value="/addShop")
 	public ResponseEntity<String> addShop(@RequestBody Map<String, Object> shopInfo) {
 		shopService.addShop(shopInfo);
         return new ResponseEntity<>("Success", HttpStatus.OK);
 	}
 	
+	//샵을 삭제한다.
 	@RequestMapping(value="deleteShop/{id}")
 	public String deleteShop(@PathVariable int id) {
 		shopService.deleteShop(id);
 		return "redirect:/list";
 	}
 	
+	//수정 페이지로 이동한다.
 	@RequestMapping(value="/modification/{id}")
-	public String modification(Model model, @PathVariable int id) {
-		Shop shop = shopService.getShop(id);
-		model.addAttribute("shop", shop);
+	public String modification(@PathVariable int id) {
 		return "modification";
 	}
 	
+	//샵 수정을 수행한다.
 	@RequestMapping(value="/modification/updateShop/{id}")
 	public ResponseEntity<String> updateShop(@RequestBody Map<String, Object> shopInfo, @PathVariable int id) {
 		shopService.updateShop(shopInfo, id);
 		return new ResponseEntity<>("Success", HttpStatus.OK);
 	}
 	
+	//디테일 페이지로 이동한다.
 	@RequestMapping(value="/details/{id}")
 	public String details(Model model, @PathVariable int id) {
 		return "details";
 	}
 	
+	//디테일에 사용할 샵 객체를 리턴한다.
 	@GetMapping(value="/details/getDetails/{id}")
 	public @ResponseBody Shop getDetails(@PathVariable int id) {
 		Shop shop = shopService.getShop(id);
