@@ -42,7 +42,7 @@
 	});
 	
 	function getCoffees(){
-		  var coffees = "";
+		  var coffees = ",";
 		  $(":checkbox[name='coffee']:checked").each(function(pi, po){
 			  coffees += po.value+",";
 		  });

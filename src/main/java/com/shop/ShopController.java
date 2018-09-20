@@ -105,17 +105,20 @@ public class ShopController {
 		return (ArrayList<Shop>) shopList;
 	}
 
-	
-	
-	/////////////////////////////////////////////////////
-	@GetMapping(value="/test/{coffee}")
+	@GetMapping(value="/getShopList/{coffee}")
 	public @ResponseBody ArrayList<Shop> getShopList(@PathVariable String coffee) {
 		List<Shop> shopList = shopService.getShopListByCoffee(","+coffee+",");
 		return (ArrayList<Shop>) shopList;
 	}
+
 	
-	@GetMapping(value="/getCoffeeNames/{menuString}")
-	public @ResponseBody ArrayList<Coffee> getCoffeeNames(@PathVariable String menuString) {
+	/////////////////////////////////////////////////////	
+	
+	/*
+	 * 메뉴(커피 아이디 스트링)를 받아 해당하는 커피 객체 리스트 리턴
+	 * */
+	@GetMapping(value="/getCoffees/{menuString}")
+	public @ResponseBody ArrayList<Coffee> getCoffees(@PathVariable String menuString) {
 		String menu[] = menuString.split(",");
 		ArrayList<Coffee> coffeeList = new ArrayList<Coffee>();
 		for (int i=0; i<menu.length; i++) {
