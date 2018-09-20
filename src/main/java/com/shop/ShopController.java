@@ -95,9 +95,8 @@ public class ShopController {
 		return shop;
 	}
 	
-	/* 
-	 * 커피를 파는 샵 리스트를 보내줌 (파라미터: 커피 id)
-	 * */
+	// CORS에 사용. 내쪽에서 저쪽으로 데이터를 줄 때
+	// 커피를 파는 샵 리스트를 보내줌 (파라미터: 커피 id)
 	@CrossOrigin("*")
 	@GetMapping(value="/getShopListByCoffee/{id}")
 	public @ResponseBody ArrayList<Shop> getShopListByCoffee(@PathVariable String id) {
@@ -105,17 +104,12 @@ public class ShopController {
 		return (ArrayList<Shop>) shopList;
 	}
 
-	@GetMapping(value="/getShopList/{coffee}")
-	public @ResponseBody ArrayList<Shop> getShopList(@PathVariable String coffee) {
-		List<Shop> shopList = shopService.getShopListByCoffee(","+coffee+",");
-		return (ArrayList<Shop>) shopList;
-	}
-
 	
-	/////////////////////////////////////////////////////	
+	/////////////////////저쪽에서 나한테 보내줘야 함////////////////////////////////	
 	
 	/*
-	 * 메뉴(커피 아이디 스트링)를 받아 해당하는 커피 객체 리스트 리턴
+	 * 메뉴(커피 아이디로 이루어진 스트링)를 받아 그에 해당하는 커피 객체들의 리스트를 리턴하는 메소드
+	 * 사용처: addition, modification, list, (details)
 	 * */
 	@GetMapping(value="/getCoffees/{menuString}")
 	public @ResponseBody ArrayList<Coffee> getCoffees(@PathVariable String menuString) {
@@ -129,10 +123,17 @@ public class ShopController {
 		return coffeeList;
 	}
 	
+	
+	/*
+	 * 커피 테이블 전체를 불러오는 메소드
+	 * 사용처: addition, modification
+	 * */
 	@GetMapping (value = "/getCoffeeList")
 	public @ResponseBody List<Coffee> getCoffeeList() {
 		return coffeeRepository.findAll();
 	}
+	
+	
 	/*
 	 * 메뉴 스트링을 받아와서 커피 정보 수정 또는 삭제가 없었는지를 검사하고 커피 객체 리스트를 다시 돌려주는 메소드
 	 * */
