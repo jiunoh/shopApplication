@@ -21,6 +21,8 @@ public class ShopService {
 		shop.setRegDate(regDate);
 		shop.setModDate(regDate);
 		shop.setMenu(shopInfo.get("menu").toString());
+		shop.setTotalMoney(0);
+		shop.setTotalSale(0);
 		shop.setIsDeleted("n");
 		shopRepository.save(shop);
 	}
