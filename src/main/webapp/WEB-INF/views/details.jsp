@@ -46,6 +46,7 @@ $(document).ready(function() {
         }
    });
     
+    /*
   	    $.ajax({ //커피에서 커피 종류 전체를 가져오는 부분
 	        type: "GET",
 	        url: "/getTotalCoffeeList",
@@ -56,8 +57,9 @@ $(document).ready(function() {
 	    	  for (var i=0; i<data.length; i++) {
 	    		var ul = document.createElement("ul");
 	    		var li = [];
-	    		for (var i=0; i<7; i++)
+	    		for (var i=0; i<7; i++) {
 	    			li[i] = document.createElement("li");
+	    		}
 	 		    li[0].appendChild(document.createTextNode(data[i].name) );
 	 		    li[1].appendChild(document.createTextNode(data[i].price) );
 	 		    li[2].appendChild(document.createTextNode(data[i].inventory) );
@@ -72,6 +74,7 @@ $(document).ready(function() {
 	        }, error: function (jqXHR, textStatus, errorThrown) {
 	        }
 	   });
+    */
 });
 
 </script>
