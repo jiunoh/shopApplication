@@ -53,7 +53,7 @@
 	    
 	    $.ajax({ //커피에서 커피 종류 전체를 가져오는 부분
 	        type: "GET",
-	        url: "/getCoffeeList",
+	        url: "http://9.240.101.88:8888/getCoffeeList",
             crossOrigin: true,
             async: false,
 	        success: function (data) {
@@ -106,7 +106,7 @@
 	    coffeeNames = "";
 	    menuString = menu.slice(1);
 	    $.ajax({
-	            url: "/getCoffees/"+menuString,
+	            url: "http://9.240.101.88:8888/getCoffees/"+menuString,
 	            type: "GET",
 	            crossOrigin: true,
 	            async: false,

@@ -43,7 +43,7 @@ function getCoffeeNames(menu){
     coffeeNames = "";
     menuString = menu.slice(1);
     $.ajax({
-            url: "/getCoffees/"+menuString,
+            url: "http://9.240.101.88:8888/getCoffees/"+menuString,
             type: "GET",
             crossOrigin: true,
             async: false,
