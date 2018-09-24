@@ -31,7 +31,7 @@ $(document).ready(function() {
       	  $.each(data, function() {
       		  items.push("<h4>"+this.name+"</h4> <ul> <li> 등록: "+this.regDate+"</li><li>메뉴: "
       				  +getCoffeeNames(this.menu)
-				+"</li> <br><a href='/details/"+this.id+"'>자세히</a>")
+				+"</li> <a href='/details/"+this.id+"'>자세히</a>")
       	  });
                 $('.item').append(items);
         }, error: function (jqXHR, textStatus, errorThrown) {
