@@ -29,6 +29,9 @@ public class ShopController {
 	
 	@Autowired
 	CoffeeDAO coffeeRepository;
+	
+	@Autowired
+	TotalDAO totalRepository;
 
 	//홈으로 이동
 	@RequestMapping("/")
@@ -40,6 +43,20 @@ public class ShopController {
 	@RequestMapping("/addition")
 	public String addition() {
 		return "addition";
+	}
+	
+    //샵 등록을 수행한다.
+	@PostMapping(value="/addition/addShop")
+	public ResponseEntity<String> addShop(@RequestBody Map<String, Object> shopInfo) {
+		shopService.addShop(shopInfo);
+        return new ResponseEntity<>("Success", HttpStatus.OK);
+	}
+	
+	//샵을 삭제한다.
+	@RequestMapping(value="deleteShop/{id}")
+	public String deleteShop(@PathVariable int id) {
+		shopService.deleteShop(id);
+		return "redirect:/list";
 	}
 	
 	//리스트 페이지로 이동
@@ -55,20 +72,6 @@ public class ShopController {
         return (ArrayList<Shop>) shopList;
     }        
     
-    //샵 등록을 수행한다.
-	@PostMapping(value="/addShop")
-	public ResponseEntity<String> addShop(@RequestBody Map<String, Object> shopInfo) {
-		shopService.addShop(shopInfo);
-        return new ResponseEntity<>("Success", HttpStatus.OK);
-	}
-	
-	//샵을 삭제한다.
-	@RequestMapping(value="deleteShop/{id}")
-	public String deleteShop(@PathVariable int id) {
-		shopService.deleteShop(id);
-		return "redirect:/list";
-	}
-	
 	//수정 페이지로 이동한다.
 	@RequestMapping(value="/modification/{id}")
 	public String modification(@PathVariable int id) {
@@ -131,8 +134,15 @@ public class ShopController {
 	@GetMapping (value = "/getCoffeeList")
 	public @ResponseBody List<Coffee> getCoffeeList() {
 		return coffeeRepository.findAll();
-	}
+	}	
 	
+	/*
+	 * 해당하는 total table의 정보를 가져옴
+	 * */
+	@GetMapping(value= "/getTotalInfo/{id}")
+	public @ResponseBody TotalCoffee getTotalInfo(@PathVariable int id) {
+		return totalRepository.findById(id);
+	}
 	
 	/*
 	 * 메뉴 스트링을 받아와서 커피 정보 수정 또는 삭제가 없었는지를 검사하고 커피 객체 리스트를 다시 돌려주는 메소드

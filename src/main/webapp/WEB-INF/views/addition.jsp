@@ -58,7 +58,7 @@
 
 	   $.ajax({
 	            type: "POST",
-	            url: "/addShop",
+	            url: "/addition/addShop",
 	            headers: {
 	                "Content-Type": "application/json"
 	            },
