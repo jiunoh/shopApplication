@@ -12,12 +12,13 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">		</script>
 </head>
 <body>
-
+<a href='/'>홈으로 돌아가기</a>
+<br>
+<br>
 	<div>
 		<div class="item" id="item"></div>
     </div>
 
-<a href='/'>홈으로 돌아가기</a>
 
 </body>
 <script>
