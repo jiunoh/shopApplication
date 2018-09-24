@@ -21,38 +21,59 @@
 		<div class="menu" id="menu"></div>
     </div>
 
-<a href='/'>홈으로 돌아가기</a>
 
 </body>
 <script>
 
 $(document).ready(function() {
+	var txt="";
+
 	url = window.location.pathname;
 	splitted = url.split("/");
 	id = splitted[splitted.length-1];
 	console.log(id);
+	
     $.ajax({
         type: "GET",
         url: "/details/getDetails/"+id,
         success: function (data) {
       	  var items = [];
-	      console.log(data);
-	      console.log(data.name);
      	  items.push("<h4>"+data.name+"</h4> 등록일: "+data.regDate+"<br>수정일: "+data.modDate+"<br>"+"총 판매량: "+data.totalSale
-     			  +"<br>총 매출: "+data.totalMoney);
-//			+"<a href='/deleteShop/"+data.id+"'>삭제</a> &nbsp; <a href='/modification/"+data.id+"'>수정</a>")
+     			  +"<br>총 매출: "+data.totalMoney+"<br><br>"
+			+"<a href='/deleteShop/"+data.id+"'>삭제</a> &nbsp; <a href='/modification/"+data.id+"'>수정</a> &nbsp; <a href='/'>홈으로 돌아가기</a> <br><br>");
           $('.item').append(items);
+          
+          menuString = data.menu.slice(1);          
+          console.log("메뉴스트링: "+menuString);
+          var coffees = getCoffees(menuString)
+          
+          txt += "<table border='1' style='border-collapse:collapse' cellpadding='5'>"+"<thead>"+"<tr><th>이름</th>"+"<th>가격</th>"+"<th>재고</th>"
+           +"<th>등록일</th>"+"<th>수정일</th>"+"<th>총 판매량</th>"+"<th>총 판매액</th>"+"</tr></thead><tbody>";
+           for (i=0; i<coffees.length; i++) {
+        	  txt += "<tr><td>"+coffees[i].name+"</td>";
+        	  txt += "<td>"+coffees[i].price+"</td>";
+        	  txt += "<td>"+coffees[i].inventory+"</td>";
+        	  txt += "<td>"+coffees[i].register_date+"</td>";
+        	  txt += "<td>"+coffees[i].update_date+"</td>";
+        	  totalInfo = getTotalInfo(coffees[i].id);
+        	  console.log("totalInfo: "+totalInfo);
+        	  txt += "<td>"+totalInfo.total_sale+"</td>";
+        	  txt += "<td>"+totalInfo.total_income+"</td>";
+        	  txt += "</tr>"
+           }           
+          $('.menu').append(txt);
+          
         }, error: function (jqXHR, textStatus, errorThrown) {
         }
    });
-    
-    /*
+  /*
   	    $.ajax({ //커피에서 커피 종류 전체를 가져오는 부분
 	        type: "GET",
-	        url: "/getTotalCoffeeList",
+	        url: "http://9.240.101.88:8888/getCoffees/"+this.menuString,
             crossOrigin: true,
             async: false,
 	        success: function (data) {
+		      console.log("success");
 	      	  var items = [];
 	    	  for (var i=0; i<data.length; i++) {
 	    		var ul = document.createElement("ul");
@@ -63,19 +84,56 @@ $(document).ready(function() {
 	 		    li[0].appendChild(document.createTextNode(data[i].name) );
 	 		    li[1].appendChild(document.createTextNode(data[i].price) );
 	 		    li[2].appendChild(document.createTextNode(data[i].inventory) );
-	 		    li[3].appendChild(document.createTextNode(data[i].total_sale) );
-	 		    li[4].appendChild(document.createTextNode(data[i].total_money) );
+//	 		    li[3].appendChild(document.createTextNode(data[i].total_sale) );
+//	 		    li[4].appendChild(document.createTextNode(data[i].total_money) );
 	 		    li[5].appendChild(document.createTextNode(data[i].register_date) );
-	 		    li[6].appendChild(document.createTextNode(data[i].mod_date) );
+	 		    li[6].appendChild(document.createTextNode(data[i].update_date) );
 	 		    ul.appendChild(li);
 	    	  }
 	    	  items.push('<br>');
 	          $('.menu').append(items);
 	        }, error: function (jqXHR, textStatus, errorThrown) {
+	        	console.log("error ");
 	        }
-	   });
-    */
+	   }); */
+   
 });
+
+///메뉴에 해당하는 커피 객체들을 받아옴
+function getCoffees(menu){
+    var coffees = [];
+    $.ajax({
+            url: "http://9.240.101.88:8888/getCoffees/"+menuString,
+            type: "GET",
+            crossOrigin: true,
+            async: false,
+            success: function (data) {
+            	for (var i=0; i<data.length; i++) {
+            		coffees.push(data[i]);
+            	}
+            }, error: function (request,status,error) {
+               console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            },
+       });
+    console.log("getCoffees: "+coffees[0]);
+    return coffees;
+}
+
+function getTotalInfo(id) {
+	var total = "";
+    $.ajax({
+        url: "http://9.240.101.88:8888/getTotalInfo/"+id,
+        type: "GET",
+        crossOrigin: true,
+        async: false,
+        success: function (data) {
+        	total = data;
+        }, error: function (request,status,error) {
+           console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+        },
+   });
+    return total;
+}
 
 </script>
 </html>
