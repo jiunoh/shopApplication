@@ -65,39 +65,9 @@ $(document).ready(function() {
           
         }, error: function (jqXHR, textStatus, errorThrown) {
         }
-   });
-  /*
-  	    $.ajax({ //커피에서 커피 종류 전체를 가져오는 부분
-	        type: "GET",
-	        url: "http://9.240.101.88:8888/getCoffees/"+this.menuString,
-            crossOrigin: true,
-            async: false,
-	        success: function (data) {
-		      console.log("success");
-	      	  var items = [];
-	    	  for (var i=0; i<data.length; i++) {
-	    		var ul = document.createElement("ul");
-	    		var li = [];
-	    		for (var i=0; i<7; i++) {
-	    			li[i] = document.createElement("li");
-	    		}
-	 		    li[0].appendChild(document.createTextNode(data[i].name) );
-	 		    li[1].appendChild(document.createTextNode(data[i].price) );
-	 		    li[2].appendChild(document.createTextNode(data[i].inventory) );
-//	 		    li[3].appendChild(document.createTextNode(data[i].total_sale) );
-//	 		    li[4].appendChild(document.createTextNode(data[i].total_money) );
-	 		    li[5].appendChild(document.createTextNode(data[i].register_date) );
-	 		    li[6].appendChild(document.createTextNode(data[i].update_date) );
-	 		    ul.appendChild(li);
-	    	  }
-	    	  items.push('<br>');
-	          $('.menu').append(items);
-	        }, error: function (jqXHR, textStatus, errorThrown) {
-	        	console.log("error ");
-	        }
-	   }); */
-   
+   });   
 });
+
 
 ///메뉴에 해당하는 커피 객체들을 받아옴
 function getCoffees(menu){
