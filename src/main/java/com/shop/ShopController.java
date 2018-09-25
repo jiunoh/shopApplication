@@ -99,9 +99,9 @@ public class ShopController {
 	}
 	
 	//판매 페이지로 이동한다.
-	@RequestMapping (value="/purchase/{id}")
+	@RequestMapping (value="/sale/{id}")
 	public String purchase(@PathVariable int id) {
-		return "purchase";
+		return "sale";
 	}
 	
 	
@@ -142,6 +142,14 @@ public class ShopController {
 	public @ResponseBody List<Coffee> getCoffeeList() {
 		return coffeeRepository.findAll();
 	}	
+	
+	/*
+	 * */
+	@GetMapping (value = "/sale/getInventory/{id}")
+	public @ResponseBody int getInventory(@PathVariable int id) {
+		Coffee coffee = coffeeRepository.findById(id);
+		return coffee.getInventory();
+	}
 	
 	/*
 	 * 해당하는 total table의 정보를 가져옴
