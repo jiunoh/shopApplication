@@ -104,6 +104,12 @@ public class ShopController {
 		return "sale";
 	}
 	
+	@PostMapping (value = "sale/updateSaleData/{id}")
+	public ResponseEntity<String> updateSaleData(@RequestBody Map<String, Object> saleInfo, @PathVariable int id) {
+		shopService.updateSaleData(saleInfo, id);
+		return new ResponseEntity<>("Success", HttpStatus.OK);
+	}
+	
 	
 	// CORS에 사용. 내쪽에서 저쪽으로 데이터를 줄 때
 	// 커피를 파는 샵 리스트를 보내줌 (파라미터: 커피 id)
@@ -149,6 +155,22 @@ public class ShopController {
 	public @ResponseBody int getInventory(@PathVariable int id) {
 		Coffee coffee = coffeeRepository.findById(id);
 		return coffee.getInventory();
+	}
+	
+	@PostMapping (value = "/sale/postSaleData/{id}")
+	public ResponseEntity<String> postSaleData(@PathVariable int id, @RequestBody int quantity) {
+		Coffee coffee = coffeeRepository.findById(id);
+		int inventory = coffee.getInventory();
+		int price = coffee.getPrice();
+		coffee.setInventory(inventory-quantity);
+		coffeeRepository.save(coffee);
+		
+		TotalCoffee totalCoffee = totalRepository.findById(id);
+		int currentSale = totalCoffee.getTotal_sale();
+		int currentIncome = totalCoffee.getToal_income();
+		totalCoffee.setTotal_sale(currentSale+quantity);
+		totalCoffee.setToal_income(currentIncome+(price*quantity));
+		return new ResponseEntity<>("Success", HttpStatus.OK);
 	}
 	
 	/*

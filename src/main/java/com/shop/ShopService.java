@@ -45,6 +45,16 @@ public class ShopService {
 		shopRepository.save(shop);
 	}
 	
+	public void updateSaleData(Map<String, Object> saleInfo, int id) {
+		Shop shop = shopRepository.findById(id);
+		int sale = Integer.parseInt(saleInfo.get("totalSale").toString());
+		int money = Integer.parseInt(saleInfo.get("totalMoney").toString());
+		int currentSale = shop.getTotalSale();
+		int currentMoney = shop.getTotalMoney();
+		shop.setTotalSale(currentSale + sale);
+		shop.setTotalMoney(currentMoney + money);
+	}
+	
 	public Shop getShop(int id) {
 		return shopRepository.findById(id);
 	}
