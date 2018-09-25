@@ -87,7 +87,7 @@ public class ShopController {
 	
 	//디테일 페이지로 이동한다.
 	@RequestMapping(value="/details/{id}")
-	public String details(Model model, @PathVariable int id) {
+	public String details(@PathVariable int id) {
 		return "details";
 	}
 	
@@ -97,6 +97,13 @@ public class ShopController {
 		Shop shop = shopService.getShop(id);
 		return shop;
 	}
+	
+	//판매 페이지로 이동한다.
+	@RequestMapping (value="/purchase/{id}")
+	public String purchase(@PathVariable int id) {
+		return "purchase";
+	}
+	
 	
 	// CORS에 사용. 내쪽에서 저쪽으로 데이터를 줄 때
 	// 커피를 파는 샵 리스트를 보내줌 (파라미터: 커피 id)
@@ -112,7 +119,7 @@ public class ShopController {
 	
 	/*
 	 * 메뉴(커피 아이디로 이루어진 스트링)를 받아 그에 해당하는 커피 객체들의 리스트를 리턴하는 메소드
-	 * 사용처: addition, modification, list, (details)
+	 * 사용처: addition, modification, list, details
 	 * */
 	@GetMapping(value="/getCoffees/{menuString}")
 	public @ResponseBody ArrayList<Coffee> getCoffees(@PathVariable String menuString) {
