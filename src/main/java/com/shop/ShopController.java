@@ -119,7 +119,7 @@ public class ShopController {
 	
 	/*
 	 * 메뉴(커피 아이디로 이루어진 스트링)를 받아 그에 해당하는 커피 객체들의 리스트를 리턴하는 메소드
-	 * 사용처: addition, modification, list, details
+	 * 사용처: modification, list, details, purchase
 	 * */
 	@GetMapping(value="/getCoffees/{menuString}")
 	public @ResponseBody ArrayList<Coffee> getCoffees(@PathVariable String menuString) {
