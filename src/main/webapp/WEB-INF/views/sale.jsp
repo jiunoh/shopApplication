@@ -40,7 +40,7 @@
 <script>
 var coffees;
 var id = "";
-var saleCoffeeId = 1;
+var saleCoffeeId;
 var coffeesIndex = 0;
 var menuTable;
 
@@ -70,6 +70,7 @@ $(document).ready(function() {
         	  txt += "</tr>"
         	  coffeeIdObj[coffees[i].id] = i;
            }
+           saleCoffeeId = coffees[0].id;
            document.getElementById("menuTable").innerHTML = txt; //여기까지 메뉴 테이블 띄움
           
           var choices = "";
@@ -105,11 +106,12 @@ function sellCoffee() {
     console.log(quant);
     
 	$.ajax({
-       url: "/getOneCoffee/"+saleCoffeeId,
+       url: "http://9.240.101.88:8888/getOneCoffee/"+saleCoffeeId,
        type: "GET",
        crossOrigin: true,
        async: false,
        success: function (data) {
+    	   console.log("data: "+data);
     	   coffee = data;
     	   inventory = data.inventory;
     	   price = data.price;
@@ -140,6 +142,8 @@ function sellCoffee() {
 		return false;
 	}	
 	else {
+		console.log("new price: "+price);
+		console.log("old price: "+menuTable.rows[tableIndex].cells[2].innerHTML);
 		if (price != menuTable.rows[tableIndex].cells[2].innerHTML) { //커피 가격이 변동되었을 경우
 			menuTable.rows[tableIndex].cells[2].innerHTML = price;
 			var willBuy = confirm("커피의 가격이 "+price+"원으로 변경되었습니다. 구매하시겠습니까?");
@@ -166,7 +170,8 @@ function doSale(quant, price, inventory, tableIndex) {
 	console.log("tableIndex: "+tableIndex);
     
 	$.ajax({
-	       url: "/sale/postSaleData/"+saleCoffeeId,
+		url: "http://9.240.101.88:8888/postSaleData/"+saleCoffeeId,		
+//	       url: "/postSaleData/"+saleCoffeeId,
 	       type: "POST",
 	       crossOrigin: true,
 	       async: false,
@@ -197,12 +202,11 @@ function doSale(quant, price, inventory, tableIndex) {
 	});	
 }
 
-///메뉴에 해당하는 커피 객체들을 받아옴
 function getCoffees(menu){
     var coffees = [];
     $.ajax({
-	        url: "/getCoffees/"+menu,
-//            url: "http://9.240.101.88:8888/getCoffees/"+menuString,
+//	        url: "/getCoffees/"+menu,
+            url: "http://9.240.101.88:8888/getCoffees/"+menu,
             type: "GET",
             crossOrigin: true,
             async: false,
