@@ -53,6 +53,7 @@ public class ShopService {
 		int currentMoney = shop.getTotalMoney();
 		shop.setTotalSale(currentSale + sale);
 		shop.setTotalMoney(currentMoney + money);
+		shopRepository.save(shop);
 	}
 	
 	public Shop getShop(int id) {
