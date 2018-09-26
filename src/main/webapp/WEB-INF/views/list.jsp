@@ -75,11 +75,12 @@ function getCoffeeNames(menu, id){
 }
 
 function updateMenu(newMenu, id) {
+	var param = "menu" + "=" + newMenu;
 	console.log("newMenu: "+newMenu);
 	   $.ajax({
            type: "POST",
-           url: "/list/updateMenu/"+id+"@"+newMenu,
-           data: newMenu,
+           url: "/list/updateMenu/"+id,
+           data: param,
            success: function (data) {
         	   console.log(data);
            },

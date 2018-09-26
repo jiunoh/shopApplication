@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @CrossOrigin(origins = "*")
@@ -73,12 +74,9 @@ public class ShopController {
     }        
     
     //리스트 화면에 갔을 때 커피에 삭제가 있었을 경우 메뉴를 업데이트한다.
-    @PostMapping(value = "/list/updateMenu/{idAndMenu}")
-    public ResponseEntity<String> updateMenu(@PathVariable String idAndMenu) {
-    	String arr[] = idAndMenu.split("@");
-    	System.out.println(arr[1]);
-    	int id = Integer.parseInt(arr[0]);
-    	shopService.updateMenu(id, arr[1]);
+    @PostMapping(value = "/list/updateMenu/{id}")
+    public ResponseEntity<String> updateMenu(@PathVariable int id, @RequestParam(value="menu", required=false) String menu) {
+    	shopService.updateMenu(id, menu);
 		return new ResponseEntity<>("Success", HttpStatus.OK);
     }
     
@@ -110,12 +108,12 @@ public class ShopController {
 	
 	//판매 페이지로 이동한다.
 	@RequestMapping (value="/sale/{id}")
-	public String purchase(@PathVariable int id) {
+	public String sale(@PathVariable int id) {
 		return "sale";
 	}
 	
 	//총판매량 총판매액을 업데이트한다.
-	@PostMapping (value = "sale/updateSaleData/{id}")
+	@PostMapping (value = "/sale/updateSaleData/{id}")
 	public ResponseEntity<String> updateSaleData(@RequestBody Map<String, Object> saleInfo, @PathVariable int id) {
 		shopService.updateSaleData(saleInfo, id);
 		return new ResponseEntity<>("Success", HttpStatus.OK);
@@ -163,6 +161,7 @@ public class ShopController {
 	/* 
 	 * 커피 객체 하나 받아옴
 	 * */
+	@CrossOrigin("*")
 	@GetMapping (value = "/getOneCoffee/{id}")
 	public @ResponseBody Coffee getOneCoffee(@PathVariable int id) {
 		Coffee coffee = coffeeRepository.findById(id);
