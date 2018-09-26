@@ -126,8 +126,7 @@ function sellCoffee() {
 	}			
 			
 	console.log(inventory);
-	menuTable.rows[tableIndex].cells[3].innerHTML = inventory;
-
+	menuTable.rows[tableIndex].cells[3].innerHTML = inventory; //재고 업데이트
 	if (quant > inventory) { //구매수량이 재고보다 많을 경우
 		alert("재고가 부족합니다.");
 		return false;
@@ -136,7 +135,10 @@ function sellCoffee() {
 		alert("잘못된 수량입니다.");
 		return false;
 	}
-	
+	else if (isNaN(quant)) {
+		alert("잘못된 수량입니다.");
+		return false;
+	}	
 	else {
 		if (price != menuTable.rows[tableIndex].cells[2].innerHTML) { //커피 가격이 변동되었을 경우
 			menuTable.rows[tableIndex].cells[2].innerHTML = price;
