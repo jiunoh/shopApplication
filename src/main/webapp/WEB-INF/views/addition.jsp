@@ -32,12 +32,14 @@
             async: false,
 	        success: function (data) {
 	      	  var items = [];
-	    	  console.log(data);
-	    	  console.log(data[0].name);
 	    	  for (var i=0; i<data.length; i++) {
 	      		  items.push('<input type="checkbox" name="coffee" value="'+data[i].id+'">'+data[i].name+"<br>")
 	    	  }
 	    	  items.push('<br>');
+	    	  if (items.length == 1) {
+	    		  alert("등록을 진행할 수  없습니다.");
+	    		  window.location.href = "/";
+	    	  }
 	          $('.item').append(items);
 	        }, error: function (jqXHR, textStatus, errorThrown) {
 	        }

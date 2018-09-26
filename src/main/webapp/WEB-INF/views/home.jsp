@@ -13,8 +13,8 @@
 
 <table width="75%" align="center"> 
 <tr> <td align="center"></td> 
-<td align="center"><b><a href="./addition">커피 등록</a></td> 
-<td align="center"><b><a href="./list">커피 조회</a></td>
+<td align="center"><b><a href="./addition">카페 등록</a></td> 
+<td align="center"><b><a href="./list">카페 조회</a></td>
 </tr> 
 </table>
  
