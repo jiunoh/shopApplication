@@ -40,8 +40,8 @@
 <script>
 var coffees;
 var id = "";
-var saleCoffeeId = "1";
-var coffeesIndex = "0";
+var saleCoffeeId = 1;
+var coffeesIndex = 0;
 
 $(document).ready(function() {
 	var txt="";
@@ -49,14 +49,12 @@ $(document).ready(function() {
 	var url = window.location.pathname;
 	var splitted = url.split("/");
 	id = splitted[splitted.length-1];
-	console.log(id);
 	
     $.ajax({
         type: "GET",
         url: "/details/getDetails/"+id,
         success: function (data) {
           var menuString = data.menu.slice(1);          
-          console.log("메뉴스트링: "+menuString);
 
           coffees = getCoffees(menuString);
           var coffeeIdObj = {};
@@ -102,6 +100,7 @@ function sellCoffee() {
 
     console.log("sell saleCoffeeId: "+saleCoffeeId);
     console.log("sell coffeesIndex: "+coffeesIndex);
+    console.log("sell tableIndex: "+tableIndex);
     console.log("coffee for sale: "+coffees[coffeesIndex].name );    
     console.log(quant);
     
