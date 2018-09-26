@@ -104,6 +104,7 @@ public class ShopController {
 		return "sale";
 	}
 	
+	//총판매량 총판매액을 업데이트한다.
 	@PostMapping (value = "sale/updateSaleData/{id}")
 	public ResponseEntity<String> updateSaleData(@RequestBody Map<String, Object> saleInfo, @PathVariable int id) {
 		shopService.updateSaleData(saleInfo, id);
@@ -149,27 +150,37 @@ public class ShopController {
 		return coffeeRepository.findAll();
 	}	
 	
-	/*
+	/* 
+	 * 커피 객체 하나 받아옴
 	 * */
-	@GetMapping (value = "/sale/getInventory/{id}")
-	public @ResponseBody int getInventory(@PathVariable int id) {
+	@GetMapping (value = "/getOneCoffee/{id}")
+	public @ResponseBody Coffee getOneCoffee(@PathVariable int id) {
 		Coffee coffee = coffeeRepository.findById(id);
-		return coffee.getInventory();
+		return coffee;
 	}
 	
+	/*
+	 * 커피 아이디, 수량을 받아서 재고와 총판매액 총판매량 업데이트함
+	 * */
 	@PostMapping (value = "/sale/postSaleData/{id}")
-	public ResponseEntity<String> postSaleData(@PathVariable int id, @RequestBody int quantity) {
+	public ResponseEntity<String> postSaleData(@PathVariable int id, @RequestBody String quant) {
+		quant = quant.substring(0, quant.length()-1);
+		int quantity = Integer.parseInt(quant);
+		
 		Coffee coffee = coffeeRepository.findById(id);
 		int inventory = coffee.getInventory();
 		int price = coffee.getPrice();
+		
 		coffee.setInventory(inventory-quantity);
 		coffeeRepository.save(coffee);
 		
 		TotalCoffee totalCoffee = totalRepository.findById(id);
 		int currentSale = totalCoffee.getTotal_sale();
 		int currentIncome = totalCoffee.getToal_income();
+		System.out.println("current totalinfo: "+currentSale+", "+currentIncome);
 		totalCoffee.setTotal_sale(currentSale+quantity);
 		totalCoffee.setToal_income(currentIncome+(price*quantity));
+		totalRepository.save(totalCoffee);
 		return new ResponseEntity<>("Success", HttpStatus.OK);
 	}
 	
