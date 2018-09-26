@@ -26,7 +26,8 @@
 	$(document).ready(function() {
 	    $.ajax({
 	        type: "GET",
-	        url: "http://9.240.101.88:8888/getCoffeeList",
+	        url: "/getCoffeeList",
+//	        url: "http://9.240.101.88:8888/getCoffeeList",
             crossOrigin: true,
             async: false,
 	        success: function (data) {
@@ -52,9 +53,20 @@
 	}
 	
 	function addShop() {
+		var menu = getCoffees();
+		var shopName = $("#shop_name").val();
+		if (!shopName) {
+			alert("가게 이름은 비워둘 수 없습니다.");
+			return false;			
+		}
+		if (menu == ",") {
+			alert("하나 이상의 커피를 선택하세요.");
+			return false;
+		}
+			
 		var info = {}
-		info["shopName"] = $("#shop_name").val();
-		info["menu"] = getCoffees();
+		info["shopName"] = shopName;
+		info["menu"] = menu;
 
 	   $.ajax({
 	            type: "POST",

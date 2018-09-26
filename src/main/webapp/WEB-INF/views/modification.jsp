@@ -78,9 +78,20 @@
 	}
 	
 	function updateShop() { //실제 업데이트 로직
+		var menu = getCoffees();
+		var shopName = $("#shop_name").val();
+		if (!shopName) {
+			alert("가게 이름은 비워둘 수 없습니다.");
+			return false;			
+		}
+		if (menu == ",") {
+			alert("하나 이상의 커피를 선택하세요.");
+			return false;
+		}
+		
 		var info = {}
-		info["shopName"] = $("#shop_name").val();
-		info["menu"] = getCoffees();
+		info["shopName"] = shopName;
+		info["menu"] = menu;
 		url = window.location.pathname; 
 		splitted = url.split("/");
 		id = splitted[splitted.length-1];
