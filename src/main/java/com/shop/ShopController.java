@@ -72,6 +72,16 @@ public class ShopController {
         return (ArrayList<Shop>) shopList;
     }        
     
+    //리스트 화면에 갔을 때 커피에 삭제가 있었을 경우 메뉴를 업데이트한다.
+    @PostMapping(value = "/list/updateMenu/{idAndMenu}")
+    public ResponseEntity<String> updateMenu(@PathVariable String idAndMenu) {
+    	String arr[] = idAndMenu.split("@");
+    	System.out.println(arr[1]);
+    	int id = Integer.parseInt(arr[0]);
+    	shopService.updateMenu(id, arr[1]);
+		return new ResponseEntity<>("Success", HttpStatus.OK);
+    }
+    
 	//수정 페이지로 이동한다.
 	@RequestMapping(value="/modification/{id}")
 	public String modification(@PathVariable int id) {
@@ -162,7 +172,8 @@ public class ShopController {
 	/*
 	 * 커피 아이디, 수량을 받아서 재고와 총판매액 총판매량 업데이트함
 	 * */
-	@PostMapping (value = "/sale/postSaleData/{id}")
+	@CrossOrigin("*")
+	@PostMapping (value = "/postSaleData/{id}")
 	public ResponseEntity<String> postSaleData(@PathVariable int id, @RequestBody String quant) {
 		quant = quant.substring(0, quant.length()-1);
 		int quantity = Integer.parseInt(quant);

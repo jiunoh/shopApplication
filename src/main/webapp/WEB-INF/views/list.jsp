@@ -12,7 +12,7 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">		</script>
 </head>
 <body>
-<a href='/'>홈으로 돌아가기</a>
+<a href='/'>홈으로 돌아가기</a> &nbsp;  <a href='/addition'>카페 등록</a>
 <br>
 <br>
 	<div>
@@ -31,19 +31,24 @@ $(document).ready(function() {
       	  var items = [];
       	  $.each(data, function() {
       		  items.push("<h4>"+this.name+"</h4> <ul> <li> 등록: "+this.regDate+"</li><li>메뉴: "
-      				  +getCoffeeNames(this.menu)
+      				  +getCoffeeNames(this.menu, this.id)
 				+"</li> <a href='/details/"+this.id+"'>자세히</a>")
       	  });
-                $('.item').append(items);
+      	  if (items.length == 0)
+      		  items.push("등록된 가게가 없습니다.");
+      	  
+          $('.item').append(items);
         }, error: function (jqXHR, textStatus, errorThrown) {
         }
    });
 });
 
-function getCoffeeNames(menu){
-    coffeeNames = "";
-    menuString = menu.slice(1);
+function getCoffeeNames(menu, id){
+    var coffeeNames = "";
+    var menuString = menu.slice(1);
+    var newMenu = ",";
     $.ajax({
+//	        url: "/getCoffees/"+menuString,    	
             url: "http://9.240.101.88:8888/getCoffees/"+menuString,
             type: "GET",
             crossOrigin: true,
@@ -52,6 +57,7 @@ function getCoffeeNames(menu){
             	for (var i=0; i<data.length; i++) {
                 	console.log("for문 "+i+": "+data[i].name);
                     coffeeNames += data[i].name+", ";            		
+      			    newMenu += data[i].id+",";                    
             	}
             }, error: function (request,status,error) {
                console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -60,7 +66,26 @@ function getCoffeeNames(menu){
                console.log("getcoffeenames 완료:"+coffeeNames);
             }
        });
+
+    if (newMenu != menu) {
+        console.log(newMenu);
+	    updateMenu(newMenu, id);
+    }
     return coffeeNames.slice(0, -2);    
+}
+
+function updateMenu(newMenu, id) {
+	console.log("newMenu: "+newMenu);
+	   $.ajax({
+           type: "POST",
+           url: "/list/updateMenu/"+id+"@"+newMenu,
+           data: newMenu,
+           success: function (data) {
+        	   console.log(data);
+           },
+           error: function (jqXHR, textStatus, errorThrown) {
+           }
+       });	
 }
 </script>
 </html>

@@ -56,6 +56,12 @@ public class ShopService {
 		shopRepository.save(shop);
 	}
 	
+	public void updateMenu(int id, String menu) {
+		Shop shop = shopRepository.findById(id);
+		shop.setMenu(menu);
+		shopRepository.save(shop);
+	}
+	
 	public Shop getShop(int id) {
 		return shopRepository.findById(id);
 	}
