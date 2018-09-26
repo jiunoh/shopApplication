@@ -42,6 +42,7 @@ var coffees;
 var id = "";
 var saleCoffeeId = 1;
 var coffeesIndex = 0;
+var menuTable;
 
 $(document).ready(function() {
 	var txt="";
@@ -80,7 +81,7 @@ $(document).ready(function() {
         }, error: function (jqXHR, textStatus, errorThrown) {
         }
    });
-    
+    menuTable = document.getElementById("menuTable");
 });
 
 function updateSaleInfo() {
@@ -92,9 +93,8 @@ function updateSaleInfo() {
 
 function sellCoffee() {
     var quant = $('#quantity').val(); //구매 수량
-    var inventory = 0;
-    var price = 0;
-    var menuTable = document.getElementById("menuTable");
+    var inventory = 0; //다시 받아올 재고
+    var price = 0; //다시 받아올 가격
 	var tableIndex = coffeesIndex+1;
     var coffee;
 
@@ -121,14 +121,14 @@ function sellCoffee() {
 	if (!coffee) { //그사이 커피가 삭제됐을 경우
 		menuTable.deleteRow(tableIndex);
 		choice.remove(coffeesIndex);
-		alert("구매할 수 없습니다.");		
+		alert("망설이시는 사이 커피가 사라졌습니다.");		
 		return false;
-	}
+	}			
 			
 	console.log(inventory);
+	menuTable.rows[tableIndex].cells[3].innerHTML = inventory;
+
 	if (quant > inventory) { //구매수량이 재고보다 많을 경우
-		menuTable.rows[tableIndex].cells[3].innerHTML = inventory;
-		menuTable.rows[tableIndex].cells[2].innerHTML = price;
 		alert("재고가 부족합니다.");
 		return false;
 	}
@@ -138,46 +138,61 @@ function sellCoffee() {
 	}
 	
 	else {
-		var price = coffees[coffeesIndex].price;
-		var saleInfo = {};
-		saleInfo["totalSale"] = quant;
-		saleInfo["totalMoney"] = price*quant;
-		console.log(saleInfo);
-		console.log(quant);
+		if (price != menuTable.rows[tableIndex].cells[2].innerHTML) { //커피 가격이 변동되었을 경우
+			menuTable.rows[tableIndex].cells[2].innerHTML = price;
+			var willBuy = confirm("커피의 가격이 "+price+"원으로 변경되었습니다. 구매하시겠습니까?");
+			if (willBuy == true) {
+				doSale(quant, price, inventory, tableIndex);
+			}	
+			else {
+				return false;
+			}
+		}
+		else //커피 가격에 변동이 없을 경우
+			doSale(quant, price, inventory, tableIndex);
 		
-		$.ajax({
-		       url: "/sale/postSaleData/"+saleCoffeeId,
-		       type: "POST",
-		       crossOrigin: true,
-		       async: false,
-	           data: quant,
-		       success: function (data) {
-		    	   console.log(data);		    	   
-		       }, error: function (request,status,error) {
-	               console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-	               alert("커피에서 오류가 발생했습니다.");
-	               return false;
-		       },
-		});
-		$.ajax({
-		       url: "/sale/updateSaleData/"+id,
-		       type: "POST",
-	           headers: {
-	                "Content-Type": "application/json"
-	           },
-		       data: JSON.stringify(saleInfo),
-		       success: function (data) {		    	   
-		    	   menuTable.rows[tableIndex].cells[3].innerHTML = inventory-quant;		    	   
-		    	   alert("판매되었습니다.");
-		       }, error: function (request,status,error) {
-	               console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-	               alert("샵에서 오류가 발생했습니다.");
-	               return false;
-		       },
-		});
-	}
-	
-	
+	}//else
+		
+}//function
+
+function doSale(quant, price, inventory, tableIndex) {
+	var saleInfo = {};
+	saleInfo["totalSale"] = quant;
+	saleInfo["totalMoney"] = price*quant;
+	console.log(saleInfo);
+	console.log(quant);
+	console.log("tableIndex: "+tableIndex);
+    
+	$.ajax({
+	       url: "/sale/postSaleData/"+saleCoffeeId,
+	       type: "POST",
+	       crossOrigin: true,
+	       async: false,
+           data: quant,
+	       success: function (data) {
+	    	   console.log(data);		    	   
+	       }, error: function (request,status,error) {
+               console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+               alert("커피에서 오류 발생");
+               return false;
+	       },
+	});
+	$.ajax({
+	       url: "/sale/updateSaleData/"+id,
+	       type: "POST",
+           headers: {
+                "Content-Type": "application/json"
+           },
+	       data: JSON.stringify(saleInfo),
+	       success: function (data) {		    	   
+	    	   menuTable.rows[tableIndex].cells[3].innerHTML = inventory-quant;		    	   
+	    	   alert("판매되었습니다.");
+	       }, error: function (request,status,error) {
+               console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+               alert("샵에서 오류 발생");
+               return false;
+	       },
+	});	
 }
 
 ///메뉴에 해당하는 커피 객체들을 받아옴
