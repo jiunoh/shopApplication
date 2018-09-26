@@ -14,7 +14,8 @@
 <body>
 
 	<div>
-		<div class="menu" id="menu"></div>
+		<table id='menuTable' border='1' style='border-collapse:collapse' cellpadding='5'>
+		</table>
 	</div>
 
 	<br>
@@ -27,9 +28,12 @@
     <br>
     
  	구매 수량 : &nbsp;
-	<input type="number" name="quantity" id="quantity" value="0" onkeydown="return showKeyCode(event)"/>
+	<input type="text" name="quantity" id="quantity" value="0"/>
 	
 	&nbsp; 	<input type="button" value="구매하기" onclick="sellCoffee()" />
+	
+	<br>
+	<a href='/list'>목록으로</a> &nbsp; <a href='/'>홈으로</a>
 
 </body>
 
@@ -57,7 +61,7 @@ $(document).ready(function() {
           coffees = getCoffees(menuString);
           var coffeeIdObj = {};
           
-          txt += "<table id='menuTable' border='1' style='border-collapse:collapse' cellpadding='5'>"+"<thead>"
+          txt += "<thead>"
           +"<tr><th>번호</th> <th>이름</th>"+"<th>가격</th>"+"<th>재고</th>"+"</tr></thead><tbody>";
            for (i=0; i<coffees.length; i++) {
          	  txt += "<tr><td>"+coffees[i].id+"</td>";
@@ -67,7 +71,7 @@ $(document).ready(function() {
         	  txt += "</tr>"
         	  coffeeIdObj[coffees[i].id] = i;
            }
-           document.getElementById("menu").innerHTML = txt; //여기까지 메뉴 테이블 띄움
+           document.getElementById("menuTable").innerHTML = txt; //여기까지 메뉴 테이블 띄움
           
           var choices = "";
           for (i=0; i<coffees.length; i++) {
@@ -93,6 +97,7 @@ function sellCoffee() {
     var inventory = 0;
     var price = 0;
     var menuTable = document.getElementById("menuTable");
+	var tableIndex = coffeesIndex+1;
     var coffee;
 
     console.log("sell saleCoffeeId: "+saleCoffeeId);
@@ -114,23 +119,21 @@ function sellCoffee() {
        },
      });
 	
-	if (!coffee) {
-		menuTable.rows[tableIndex].cells[3].innerHTML = "이용불가";
-		menuTable.rows[tableIndex].cells[2].innerHTML = "이용불가";
+	if (!coffee) { //그사이 커피가 삭제됐을 경우
+		menuTable.deleteRow(tableIndex);
+		choice.remove(coffeesIndex);
 		alert("구매할 수 없습니다.");		
 		return false;
 	}
-		
-	
-	var tableIndex = coffeesIndex+1;
+			
 	console.log(inventory);
-	if (quant > inventory) {
+	if (quant > inventory) { //구매수량이 재고보다 많을 경우
 		menuTable.rows[tableIndex].cells[3].innerHTML = inventory;
 		menuTable.rows[tableIndex].cells[2].innerHTML = price;
 		alert("재고가 부족합니다.");
 		return false;
 	}
-	else if (quant < 0) {
+	else if (quant < 0) { //수량이 음수일 경우
 		alert("잘못된 수량입니다.");
 		return false;
 	}
@@ -176,19 +179,6 @@ function sellCoffee() {
 	}
 	
 	
-}
-
-function showKeyCode(event) {
-	event = event || window.event;
-	var keyID = (event.which) ? event.which : event.keyCode;
-	if( ( keyID >=48 && keyID <= 57 ) || ( keyID >=96 && keyID <= 105 ) )
-	{
-		return;
-	}
-	else
-	{
-		return false;
-	}
 }
 
 ///메뉴에 해당하는 커피 객체들을 받아옴
