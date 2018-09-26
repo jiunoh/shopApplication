@@ -72,10 +72,12 @@ $(document).ready(function() {
 ///메뉴에 해당하는 커피 객체들을 받아옴
 function getCoffees(menu){
     var coffees = [];
+	var param = "menu" + "=" + menu;
     $.ajax({
-    		url: "/getCoffees/"+menu,
-//            url: "http://9.240.101.88:8888/getCoffees/"+menuString,
+//    		url: "/getCoffees/",
+            url: "http://9.240.101.88:8888/getCoffees/",
             type: "GET",
+            data: param,
             crossOrigin: true,
             async: false,
             success: function (data) {
@@ -93,8 +95,8 @@ function getCoffees(menu){
 function getTotalInfo(id) {
 	var total = "";
     $.ajax({
-        url: "/getTotalInfo/"+id,    	
-//        url: "http://9.240.101.88:8888/getTotalInfo/"+id,
+//        url: "/getTotalInfo/"+id,    	
+        url: "http://9.240.101.88:8888/getTotalInfo/"+id,
         type: "GET",
         crossOrigin: true,
         async: false,

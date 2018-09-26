@@ -204,10 +204,12 @@ function doSale(quant, price, inventory, tableIndex) {
 
 function getCoffees(menu){
     var coffees = [];
+	var param = "menu" + "=" + menu;
     $.ajax({
-//	        url: "/getCoffees/"+menu,
-            url: "http://9.240.101.88:8888/getCoffees/"+menu,
+//	        url: "/getCoffees",
+            url: "http://9.240.101.88:8888/getCoffees",
             type: "GET",
+            data: param,
             crossOrigin: true,
             async: false,
             success: function (data) {

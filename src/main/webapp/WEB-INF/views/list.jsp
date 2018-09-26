@@ -46,13 +46,15 @@ $(document).ready(function() {
 function getCoffeeNames(menu, id){
     var coffeeNames = "";
     var menuString = menu.slice(1);
+	var param = "menu" + "=" + menuString;
     var newMenu = ",";
     $.ajax({
-//	        url: "/getCoffees/"+menuString,    	
-            url: "http://9.240.101.88:8888/getCoffees/"+menuString,
+	        url: "/getCoffees",    	
+//            url: "http://9.240.101.88:8888/getCoffees",
             type: "GET",
             crossOrigin: true,
             async: false,
+            data: param,
             success: function (data) {
             	for (var i=0; i<data.length; i++) {
                 	console.log("for문 "+i+": "+data[i].name);
@@ -76,7 +78,6 @@ function getCoffeeNames(menu, id){
 
 function updateMenu(newMenu, id) {
 	var param = "menu" + "=" + newMenu;
-	console.log("newMenu: "+newMenu);
 	   $.ajax({
            type: "POST",
            url: "/list/updateMenu/"+id,
