@@ -37,6 +37,10 @@ $(document).ready(function() {
         type: "GET",
         url: "/details/getDetails/"+id,
         success: function (data) {
+          if (!data) {
+        	  alert("없는 페이지입니다.");
+        	  window.location.href = "/list";
+          }
       	  var items = [];
      	  items.push("<h4>"+data.name+"</h4> 등록일: "+data.regDate+"<br>수정일: "+data.modDate+"<br>"+"총 판매량: "+data.totalSale
      			  +"<br>총 판매액: "+data.totalMoney+"<br><br>"
