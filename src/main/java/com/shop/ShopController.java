@@ -55,7 +55,7 @@ public class ShopController {
 	}
 	
 	//샵을 삭제한다.
-	@PutMapping(value="/deleteShop/{id}")
+	@PutMapping(value="/delete/shop/{id}")
 	public ResponseEntity<String> deleteShop(@PathVariable int id) {
 		shopService.deleteShop(id);
 		return new ResponseEntity<>("Success", HttpStatus.OK);

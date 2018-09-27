@@ -119,7 +119,7 @@ function getTotalInfo(id) {
 
 function deleteShop(id) {
 	$.ajax({
-	       url: "/deleteShop/"+id,
+	       url: "/delete/shop/"+id,
 	       type: "PUT",
 	       success: function (data) {		    	   
 	    	   alert("삭제되었습니다.");
