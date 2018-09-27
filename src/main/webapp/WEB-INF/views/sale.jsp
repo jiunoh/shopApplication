@@ -188,7 +188,7 @@ function doSale(quant, price, inventory, tableIndex) {
 	});
 	$.ajax({
 	       url: "/sale/updateSaleData/"+id,
-	       type: "POST",
+	       type: "PUT",
            headers: {
                 "Content-Type": "application/json"
            },

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -87,7 +88,7 @@ public class ShopController {
 	}
 	
 	//샵 수정을 수행한다.
-	@RequestMapping(value="/modification/updateShop/{id}")
+	@PutMapping(value="/modification/updateShop/{id}")
 	public ResponseEntity<String> updateShop(@RequestBody Map<String, Object> shopInfo, @PathVariable int id) {
 		shopService.updateShop(shopInfo, id);
 		return new ResponseEntity<>("Success", HttpStatus.OK);
@@ -113,7 +114,7 @@ public class ShopController {
 	}
 	
 	//총판매량 총판매액을 업데이트한다.
-	@PostMapping (value = "/sale/updateSaleData/{id}")
+	@PutMapping (value = "/sale/updateSaleData/{id}")
 	public ResponseEntity<String> updateSaleData(@RequestBody Map<String, Object> saleInfo, @PathVariable int id) {
 		shopService.updateSaleData(saleInfo, id);
 		return new ResponseEntity<>("Success", HttpStatus.OK);
