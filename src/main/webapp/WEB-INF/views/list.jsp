@@ -44,8 +44,12 @@ $(document).ready(function() {
 });
 
 function getCoffeeNames(menu, id){
-    var coffeeNames = "";
-    var menuString = menu.slice(1);
+    if (menu == ",") {
+    	return "판매중인 커피 없음";    	
+    }
+    
+	var coffeeNames = "";
+    var menuString = menu.slice(1);        
 	var param = "menu" + "=" + menuString;
     var newMenu = ",";
     $.ajax({
