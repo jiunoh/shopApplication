@@ -55,10 +55,10 @@ public class ShopController {
 	}
 	
 	//샵을 삭제한다.
-	@RequestMapping(value="deleteShop/{id}")
-	public String deleteShop(@PathVariable int id) {
+	@PutMapping(value="/deleteShop/{id}")
+	public ResponseEntity<String> deleteShop(@PathVariable int id) {
 		shopService.deleteShop(id);
-		return "redirect:/list";
+		return new ResponseEntity<>("Success", HttpStatus.OK);
 	}
 	
 	//리스트 페이지로 이동

@@ -40,7 +40,7 @@ $(document).ready(function() {
       	  var items = [];
      	  items.push("<h4>"+data.name+"</h4> 등록일: "+data.regDate+"<br>수정일: "+data.modDate+"<br>"+"총 판매량: "+data.totalSale
      			  +"<br>총 매출: "+data.totalMoney+"<br><br>"
-			+"<a href='/deleteShop/"+data.id+"'>삭제</a> &nbsp; <a href='/modification/"+data.id+"'>수정</a> &nbsp; <a href='/sale/"+data.id+"'>커피 판매</a> &nbsp; <a href='/'>홈으로 돌아가기</a> <br><br>");
+			+"<a href='javascript:deleteShop("+data.id+");'"+">삭제</a> &nbsp; <a href='/modification/"+data.id+"'>수정</a> &nbsp; <a href='/sale/"+data.id+"'>커피 판매</a> &nbsp; <a href='/'>홈으로 돌아가기</a> <br><br>");
           $('.item').append(items);
           
           menuString = data.menu.slice(1);          
@@ -107,6 +107,20 @@ function getTotalInfo(id) {
         },
    });
     return total;
+}
+
+function deleteShop(id) {
+	$.ajax({
+	       url: "/deleteShop/"+id,
+	       type: "PUT",
+	       success: function (data) {		    	   
+	    	   alert("삭제되었습니다.");
+	    	   window.location.href = "/list";
+	       }, error: function (request,status,error) {
+            console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            return false;
+	       },
+	});	
 }
 
 </script>
