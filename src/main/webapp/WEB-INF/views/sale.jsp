@@ -15,7 +15,7 @@
 	</div>
 
 	<br>
-	구매할 커피: 
+	판매할 커피: 
 	<br>
 	<div>
 		<select id="choice" name="choice" onchange="updateSaleInfo()"></select>		
@@ -26,7 +26,7 @@
  	구매 수량 : &nbsp;
 	<input type="text" name="quantity" id="quantity" value="0"/>
 	
-	&nbsp; 	<input type="button" value="구매하기" onclick="sellCoffee()" />
+	&nbsp; 	<input type="button" value="판매하기" onclick="sellCoffee()" />
 	
 	<br>
 	<a href='/list'>목록으로</a> &nbsp; <a href='/'>홈으로</a>
@@ -51,6 +51,15 @@ $(document).ready(function() {
         type: "GET",
         url: "/details/getDetails/"+id,
         success: function (data) {
+          if (!data) {
+          	  alert("없는 페이지입니다.");
+          	  window.location.href = "/list";
+          }
+          else if (data.menu == null) {
+          	  alert("없는 페이지입니다.");
+          	  window.location.href = "/list";        	  
+          }
+          
           var menuString = data.menu.slice(1);          
           if (menuString == "") {
       		alert("판매중인 커피가 없으므로 페이지에 접근할 수 없습니다.");
@@ -61,10 +70,9 @@ $(document).ready(function() {
           var coffeeIdObj = {};
           
           txt += "<thead>"
-          +"<tr><th>번호</th> <th>이름</th>"+"<th>가격</th>"+"<th>재고</th>"+"</tr></thead><tbody>";
+          +"<tr><th>이름</th>"+"<th>가격</th>"+"<th>재고</th>"+"</tr></thead><tbody>";
            for (i=0; i<coffees.length; i++) {
-         	  txt += "<tr><td>"+coffees[i].id+"</td>";
-        	  txt += "<td>"+coffees[i].name+"</td>";
+         	  txt += "<tr><td>"+coffees[i].name+"</td>";
         	  txt += "<td>"+coffees[i].price+"</td>";
         	  txt += "<td>"+coffees[i].inventory+"</td>";
         	  txt += "</tr>"
