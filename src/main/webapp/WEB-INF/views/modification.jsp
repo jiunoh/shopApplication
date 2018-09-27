@@ -103,7 +103,7 @@
 	            data: JSON.stringify(info),
 	            success: function (data) {
 	            	console.log("POST API RESPONSE::"+data);
-	            	window.location.replace("/list");
+	            	window.location.replace("/details/"+id);
 	            },
 	            error: function (jqXHR, textStatus, errorThrown) {
 	            	console.log(textStatus);
