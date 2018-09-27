@@ -68,6 +68,10 @@
 	      		  items.push('<input type="checkbox" name="coffee" value="'+data[i].id+'">'+data[i].name+"<br>")
 	    	  }
 	    	  items.push('<br>');
+	    	  if (items.length == 1) {
+	    		  alert("수정을 진행할 수  없습니다.");
+	    		  window.location.replace("/");
+	    	  }
 	          $('.item').append(items);
 	        }, error: function (jqXHR, textStatus, errorThrown) {
 	        }
@@ -86,6 +90,7 @@
 	function updateShop() { //실제 업데이트 로직
 		var menu = getCoffees();
 		var shopName = $("#shop_name").val();
+		shopName = shopName.replace(/\s/gi, "");
 		if (!shopName) {
 			alert("가게 이름은 비워둘 수 없습니다.");
 			return false;			

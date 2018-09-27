@@ -102,7 +102,7 @@ function updateSaleInfo() {
 }
 
 function sellCoffee() {
-    var quant = $('#quantity').val(); //구매 수량
+    var quant = $('#quantity').val().replace(/\s/gi, ""); //구매 수량
     var inventory = 0; //다시 받아올 재고
     var price = 0; //다시 받아올 가격
 	var tableIndex = coffeesIndex+1;
@@ -151,7 +151,11 @@ function sellCoffee() {
 	else if (isNaN(quant)) {
 		alert("잘못된 수량입니다.");
 		return false;
-	}	
+	}
+	else if (quant == "") {
+		alert("잘못된 수량입니다.");
+		return false;		
+	}
 	else {
 		console.log("new price: "+price);
 		console.log("old price: "+menuTable.rows[tableIndex].cells[1].innerHTML);
