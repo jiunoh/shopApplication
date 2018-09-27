@@ -75,7 +75,7 @@ public class ShopController {
     
     //리스트 화면에 갔을 때 커피에 삭제가 있었을 경우 메뉴를 업데이트한다.
     @PostMapping(value = "/list/updateMenu/{id}")
-    public ResponseEntity<String> updateMenu(@PathVariable int id, @RequestParam(value="menu", required=false) String menu) {
+    public ResponseEntity<String> updateMenu(@PathVariable int id, @RequestParam(value="menu") String menu) {
     	shopService.updateMenu(id, menu);
 		return new ResponseEntity<>("Success", HttpStatus.OK);
     }
@@ -134,10 +134,10 @@ public class ShopController {
 	
 	/*
 	 * 메뉴(커피 아이디로 이루어진 스트링)를 받아 그에 해당하는 커피 객체들의 리스트를 리턴하는 메소드
-	 * 사용처: modification, list, details, purchase
+	 * 사용처: modification, list, details, sale
 	 * */
-	@GetMapping(value="/getCoffees/{menuString}")
-	public @ResponseBody ArrayList<Coffee> getCoffees(@PathVariable String menuString) {
+	@GetMapping(value="/getCoffees")
+	public @ResponseBody ArrayList<Coffee> getCoffees(@RequestParam(value="menu") String menuString) {
 		String menu[] = menuString.split(",");
 		ArrayList<Coffee> coffeeList = new ArrayList<Coffee>();
 		for (int i=0; i<menu.length; i++) {
@@ -173,10 +173,7 @@ public class ShopController {
 	 * */
 	@CrossOrigin("*")
 	@PostMapping (value = "/postSaleData/{id}")
-	public ResponseEntity<String> postSaleData(@PathVariable int id, @RequestBody String quant) {
-		quant = quant.substring(0, quant.length()-1);
-		int quantity = Integer.parseInt(quant);
-		
+	public ResponseEntity<String> postSaleData(@PathVariable int id, @RequestParam(value="quantity") int quantity) {		
 		Coffee coffee = coffeeRepository.findById(id);
 		int inventory = coffee.getInventory();
 		int price = coffee.getPrice();
@@ -187,7 +184,6 @@ public class ShopController {
 		TotalCoffee totalCoffee = totalRepository.findById(id);
 		int currentSale = totalCoffee.getTotal_sale();
 		int currentIncome = totalCoffee.getToal_income();
-		System.out.println("current totalinfo: "+currentSale+", "+currentIncome);
 		totalCoffee.setTotal_sale(currentSale+quantity);
 		totalCoffee.setToal_income(currentIncome+(price*quantity));
 		totalRepository.save(totalCoffee);

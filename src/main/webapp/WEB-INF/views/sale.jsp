@@ -106,6 +106,7 @@ function sellCoffee() {
     console.log(quant);
     
 	$.ajax({
+//		url: "/getOneCoffee/"+saleCoffeeId,
        url: "http://9.240.101.88:8888/getOneCoffee/"+saleCoffeeId,
        type: "GET",
        crossOrigin: true,
@@ -168,14 +169,15 @@ function doSale(quant, price, inventory, tableIndex) {
 	console.log(saleInfo);
 	console.log(quant);
 	console.log("tableIndex: "+tableIndex);
-    
+	var param = "quantity" + "=" + quant;
+	
 	$.ajax({
 		url: "http://9.240.101.88:8888/postSaleData/"+saleCoffeeId,		
 //	       url: "/postSaleData/"+saleCoffeeId,
 	       type: "POST",
 	       crossOrigin: true,
 	       async: false,
-           data: quant,
+           data: param,
 	       success: function (data) {
 	    	   console.log(data);		    	   
 	       }, error: function (request,status,error) {
