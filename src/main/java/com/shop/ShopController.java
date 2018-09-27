@@ -29,12 +29,6 @@ public class ShopController {
 	@Autowired
 	ShopService shopService;
 	
-	@Autowired
-	CoffeeDAO coffeeRepository;
-	
-	@Autowired
-	TotalDAO totalRepository;
-
 	//홈으로 이동
 	@RequestMapping("/")
 	public String index() {
@@ -129,90 +123,4 @@ public class ShopController {
 		List<Shop> shopList = shopService.getShopListByCoffee(","+id+",");
 		return (ArrayList<Shop>) shopList;
 	}
-
-	
-	/////////////////////저쪽에서 나한테 보내줘야 함////////////////////////////////	
-	
-	/*
-	 * 메뉴(커피 아이디로 이루어진 스트링)를 받아 그에 해당하는 커피 객체들의 리스트를 리턴하는 메소드
-	 * 사용처: modification, list, details, sale
-	 * */
-	@GetMapping(value="/getCoffees")
-	public @ResponseBody ArrayList<Coffee> getCoffees(@RequestParam(value="menu") String menuString) {
-		String menu[] = menuString.split(",");
-		ArrayList<Coffee> coffeeList = new ArrayList<Coffee>();
-		for (int i=0; i<menu.length; i++) {
-			Coffee coffee = coffeeRepository.findById(Integer.parseInt(menu[i]));
-			if (coffee != null)
-				coffeeList.add(coffee);
-		}
-		return coffeeList;
-	}
-	
-	
-	/*
-	 * 커피 테이블 전체를 불러오는 메소드
-	 * 사용처: addition, modification
-	 * */
-	@GetMapping (value = "/getCoffeeList")
-	public @ResponseBody List<Coffee> getCoffeeList() {
-		return coffeeRepository.findAll();
-	}	
-	
-	/* 
-	 * 커피 객체 하나 받아옴
-	 * */
-	@CrossOrigin("*")
-	@GetMapping (value = "/getOneCoffee/{id}")
-	public @ResponseBody Coffee getOneCoffee(@PathVariable int id) {
-		Coffee coffee = coffeeRepository.findById(id);
-		return coffee;
-	}
-	
-	/*
-	 * 커피 아이디, 수량을 받아서 재고와 총판매액 총판매량 업데이트함
-	 * */
-	@CrossOrigin("*")
-	@PostMapping (value = "/postSaleData/{id}")
-	public ResponseEntity<String> postSaleData(@PathVariable int id, @RequestParam(value="quantity") int quantity) {		
-		Coffee coffee = coffeeRepository.findById(id);
-		int inventory = coffee.getInventory();
-		int price = coffee.getPrice();
-		
-		coffee.setInventory(inventory-quantity);
-		coffeeRepository.save(coffee);
-		
-		TotalCoffee totalCoffee = totalRepository.findById(id);
-		int currentSale = totalCoffee.getTotal_sale();
-		int currentIncome = totalCoffee.getToal_income();
-		totalCoffee.setTotal_sale(currentSale+quantity);
-		totalCoffee.setToal_income(currentIncome+(price*quantity));
-		totalRepository.save(totalCoffee);
-		return new ResponseEntity<>("Success", HttpStatus.OK);
-	}
-	
-	/*
-	 * 해당하는 total table의 정보를 가져옴
-	 * */
-	@GetMapping(value= "/getTotalInfo/{id}")
-	public @ResponseBody TotalCoffee getTotalInfo(@PathVariable int id) {
-		return totalRepository.findById(id);
-	}
-	
-	/*
-	 * 메뉴 스트링을 받아와서 커피 정보 수정 또는 삭제가 없었는지를 검사하고 커피 객체 리스트를 다시 돌려주는 메소드
-	 * */
-//	@GetMapping(value="/getMenuFromCoffee") 
-//	public @ResponseBody ArrayList<Coffee> getMenuFromCoffee(String menuString) {
-//		Map<String, String> coffee = new HashMap<>();
-//		String menu[] = menuString.split(",");
-//		for (int i=0; i<menu.length; i++) {
-//			coffee.put(key, value)
-//			Coffee coffee = coffeeRepository.findById(Integer.parseInt(menu[i]));
-//			if (coffee != null)
-//				coffeeList.add(coffee);
-//		}
-//		return coffeeList;
-//	}
-	
 }
