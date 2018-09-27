@@ -30,13 +30,13 @@ public class ShopController {
 	ShopService shopService;
 	
 	//홈으로 이동
-	@RequestMapping("/")
+	@GetMapping("/")
 	public String index() {
 		return "home";
 	}
 	
 	//샵 등록 페이지로 이동
-	@RequestMapping("/addition")
+	@GetMapping("/addition")
 	public String addition() {
 		return "addition";
 	}
@@ -76,7 +76,7 @@ public class ShopController {
     }
     
 	//수정 페이지로 이동한다.
-	@RequestMapping(value="/modification/{id}")
+    @GetMapping(value="/modification/{id}")
 	public String modification(@PathVariable int id) {
 		return "modification";
 	}
@@ -89,7 +89,7 @@ public class ShopController {
 	}
 	
 	//디테일 페이지로 이동한다.
-	@RequestMapping(value="/details/{id}")
+	@GetMapping(value="/details/{id}")
 	public String details(@PathVariable int id) {
 		return "details";
 	}
@@ -102,7 +102,7 @@ public class ShopController {
 	}
 	
 	//판매 페이지로 이동한다.
-	@RequestMapping (value="/sale/{id}")
+	@GetMapping (value="/sale/{id}")
 	public String sale(@PathVariable int id) {
 		return "sale";
 	}
