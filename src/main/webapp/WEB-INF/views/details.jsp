@@ -18,7 +18,11 @@
     <br>
     <br>
     <div>
-		<div class="menu" id="menu"></div>
+		<table id='menu' border='1' style='border-collapse:collapse' cellpadding='5'>
+		</table>
+    </div>
+    <div>
+    	<div id="noMenu"></div>
     </div>
 
 
@@ -47,7 +51,7 @@ $(document).ready(function() {
           console.log("메뉴스트링: "+menuString);
           var coffees = getCoffees(menuString)
           
-          txt += "<table border='1' style='border-collapse:collapse' cellpadding='5'>"+"<thead>"+"<tr><th>이름</th>"+"<th>가격</th>"+"<th>재고</th>"
+          txt += "<thead>"+"<tr><th>이름</th>"+"<th>가격</th>"+"<th>재고</th>"
            +"<th>등록일</th>"+"<th>수정일</th>"+"<th>총 판매량</th>"+"<th>총 판매액</th>"+"</tr></thead><tbody>";
            for (i=0; i<coffees.length; i++) {
         	  txt += "<tr><td>"+coffees[i].name+"</td>";
@@ -63,6 +67,10 @@ $(document).ready(function() {
            }           
            document.getElementById("menu").innerHTML = txt;
           
+           if (coffees.length == 0) {
+               document.getElementById("noMenu").innerHTML = "판매중인 커피 없음";        	   
+           }
+           
         }, error: function (jqXHR, textStatus, errorThrown) {
         }
    });   
@@ -72,6 +80,10 @@ $(document).ready(function() {
 ///메뉴에 해당하는 커피 객체들을 받아옴
 function getCoffees(menu){
     var coffees = [];
+    if (menu == "") {
+    	return coffees;    	
+    }
+    
 	var param = "menu" + "=" + menu;
     $.ajax({
 //    		url: "/getCoffees/",

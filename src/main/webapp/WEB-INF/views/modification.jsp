@@ -115,6 +115,10 @@
    }
 
 	function getCoffeeNames(menu){
+	    if (menu == ",") {
+	    	return "판매중인 커피 없음";    	
+	    }
+	    
 	    coffeeNames = "";
 	    menuString = menu.slice(1);
 		var param = "menu" + "=" + menuString;

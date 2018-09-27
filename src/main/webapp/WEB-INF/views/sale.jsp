@@ -56,6 +56,10 @@ $(document).ready(function() {
         url: "/details/getDetails/"+id,
         success: function (data) {
           var menuString = data.menu.slice(1);          
+          if (menuString == "") {
+      		alert("판매중인 커피가 없으므로 페이지에 접근할 수 없습니다.");
+      		window.location.href = "/list";
+          }
 
           coffees = getCoffees(menuString);
           var coffeeIdObj = {};
