@@ -15,6 +15,7 @@
 	<br>
 	<br>
 	<div>
+		<input type="checkbox" name="checkAll" id="checkAll" onclick="checkAll();"/>전체선택
 		<div class="item" id="item"></div>
     </div>
 	
@@ -84,6 +85,13 @@
 	            }
 	        });
    }
-
+	
+	function checkAll(){
+	      if( $("#checkAll").is(':checked') ){
+	        $("input[name=coffee]").prop("checked", true);
+	      }else{
+	        $("input[name=coffee]").prop("checked", false);
+	      }
+	}
    </script>
 </html>
