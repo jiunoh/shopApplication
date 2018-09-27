@@ -53,8 +53,8 @@
 	    
 	    $.ajax({ //커피에서 커피 종류 전체를 가져오는 부분
 	        type: "GET",
-	        url: "/getCoffeeList",	        
-//	        url: "http://9.240.101.88:8888/getCoffeeList",
+//	        url: "/getCoffeeList",	        
+	        url: "http://9.240.101.88:8888/getCoffeeList",
             crossOrigin: true,
             async: false,
 	        success: function (data) {
@@ -98,7 +98,7 @@
 		id = splitted[splitted.length-1];
 
 	   $.ajax({
-	            type: "POST",
+	            type: "PUT",
 	            url: "/modification/updateShop/"+id,
 	            headers: {
 	                "Content-Type": "application/json"
@@ -119,8 +119,8 @@
 	    menuString = menu.slice(1);
 		var param = "menu" + "=" + menuString;
 	    $.ajax({
-            url: "/getCoffees",	    	
-//	            url: "http://9.240.101.88:8888/getCoffees",
+//            url: "/getCoffees",	    	
+	            url: "http://9.240.101.88:8888/getCoffees",
 	            type: "GET",
 	            data: param,
 	            crossOrigin: true,
