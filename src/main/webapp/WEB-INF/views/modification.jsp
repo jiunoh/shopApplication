@@ -36,6 +36,14 @@
 	        type: "GET",
 	        url: "/details/getDetails/"+id,
 	        success: function (data) {
+	            if (!data) {
+	            	  alert("없는 페이지입니다.");
+	            	  window.location.replace("/list");
+	            }
+	            else if (data.menu == null) {
+	            	  alert("없는 페이지입니다.");
+	            	  window.location.replace("/list");        	  
+	            }
 	          document.getElementById('shop_name').value=data.name;
 	          var menu = (getCoffeeNames(data.menu)).split(",");
  	  		  console.log(menu);

@@ -53,17 +53,18 @@ $(document).ready(function() {
         success: function (data) {
           if (!data) {
           	  alert("없는 페이지입니다.");
-          	  window.location.href = "/list";
+        	  window.location.replace("/list");
           }
           else if (data.menu == null) {
           	  alert("없는 페이지입니다.");
-          	  window.location.href = "/list";        	  
+        	  window.location.replace("/list");
           }
           
           var menuString = data.menu.slice(1);          
+          console.log(menuString);
           if (menuString == "") {
       		alert("판매중인 커피가 없으므로 페이지에 접근할 수 없습니다.");
-      		window.location.href = "/list";
+      	  window.location.replace("/list");
           }
 
           coffees = getCoffees(menuString);
@@ -132,12 +133,13 @@ function sellCoffee() {
 	if (!coffee) { //그사이 커피가 삭제됐을 경우
 		menuTable.deleteRow(tableIndex);
 		choice.remove(coffeesIndex);
-		alert("망설이시는 사이 커피가 사라졌습니다.");		
+		alert("커피가 삭제되었습니다.");		
 		return false;
 	}			
 			
 	console.log(inventory);
-	menuTable.rows[tableIndex].cells[3].innerHTML = inventory; //재고 업데이트
+	console.log(menuTable.rows[tableIndex]);
+	menuTable.rows[tableIndex].cells[2].innerHTML = inventory; //재고 업데이트
 	if (quant > inventory) { //구매수량이 재고보다 많을 경우
 		alert("재고가 부족합니다.");
 		return false;
@@ -152,9 +154,9 @@ function sellCoffee() {
 	}	
 	else {
 		console.log("new price: "+price);
-		console.log("old price: "+menuTable.rows[tableIndex].cells[2].innerHTML);
-		if (price != menuTable.rows[tableIndex].cells[2].innerHTML) { //커피 가격이 변동되었을 경우
-			menuTable.rows[tableIndex].cells[2].innerHTML = price;
+		console.log("old price: "+menuTable.rows[tableIndex].cells[1].innerHTML);
+		if (price != menuTable.rows[tableIndex].cells[1].innerHTML) { //커피 가격이 변동되었을 경우
+			menuTable.rows[tableIndex].cells[1].innerHTML = price;
 			var willBuy = confirm("커피의 가격이 "+price+"원으로 변경되었습니다. 구매하시겠습니까?");
 			if (willBuy == true) {
 				doSale(quant, price, inventory, tableIndex);
@@ -202,7 +204,7 @@ function doSale(quant, price, inventory, tableIndex) {
            },
 	       data: JSON.stringify(saleInfo),
 	       success: function (data) {		    	   
-	    	   menuTable.rows[tableIndex].cells[3].innerHTML = inventory-quant;		    	   
+	    	   menuTable.rows[tableIndex].cells[2].innerHTML = inventory-quant;		    	   
 	    	   alert("판매되었습니다.");
 	       }, error: function (request,status,error) {
                console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);

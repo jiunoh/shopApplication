@@ -39,7 +39,7 @@ $(document).ready(function() {
         success: function (data) {
           if (!data) {
         	  alert("없는 페이지입니다.");
-//        	  window.location.href = "/list";
+        	  window.location.replace("/list");
           }
       	  var items = [];
       	  if (data.isDeleted == "y") {
@@ -136,7 +136,7 @@ function deleteShop(id) {
 	       type: "PUT",
 	       success: function (data) {		    	   
 	    	   alert("삭제되었습니다.");
-	    	   window.location.href = "/list";
+         	  window.location.replace("/list");
 	       }, error: function (request,status,error) {
             console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
             return false;
