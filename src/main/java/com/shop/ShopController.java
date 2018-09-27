@@ -75,7 +75,7 @@ public class ShopController {
     }        
     
     //리스트 화면에 갔을 때 커피에 삭제가 있었을 경우 메뉴를 업데이트한다.
-    @PostMapping(value = "/list/updateMenu/{id}")
+    @PutMapping(value = "/list/updateMenu/{id}")
     public ResponseEntity<String> updateMenu(@PathVariable int id, @RequestParam(value="menu") String menu) {
     	shopService.updateMenu(id, menu);
 		return new ResponseEntity<>("Success", HttpStatus.OK);

@@ -50,7 +50,7 @@ function getCoffeeNames(menu, id){
     var newMenu = ",";
     $.ajax({
 	        url: "/getCoffees",    	
-//            url: "http://9.240.101.88:8888/getCoffees",
+            url: "http://9.240.101.88:8888/getCoffees",
             type: "GET",
             crossOrigin: true,
             async: false,
@@ -79,7 +79,7 @@ function getCoffeeNames(menu, id){
 function updateMenu(newMenu, id) {
 	var param = "menu" + "=" + newMenu;
 	   $.ajax({
-           type: "POST",
+           type: "PUT",
            url: "/list/updateMenu/"+id,
            data: param,
            success: function (data) {
