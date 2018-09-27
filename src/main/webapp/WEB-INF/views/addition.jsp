@@ -26,8 +26,8 @@
 	$(document).ready(function() {
 	    $.ajax({
 	        type: "GET",
-	        url: "/getCoffeeList",
-//	        url: "http://9.240.101.88:8888/getCoffeeList",
+//	        url: "/getCoffeeList",
+	        url: "http://9.240.101.88:8888/getCoffeeList",
             crossOrigin: true,
             async: false,
 	        success: function (data) {
