@@ -111,9 +111,8 @@ public class ShopController {
 	@PutMapping (value = "/sale/updateSaleData/{id}")
 	public ResponseEntity<String> updateSaleData(@RequestBody Map<String, Object> saleInfo, @PathVariable int id) {
 		shopService.updateSaleData(saleInfo, id);
-		return new ResponseEntity<>("Success", HttpStatus.OK);
-	}
-	
+        return new ResponseEntity<>("Success", HttpStatus.OK);
+    }	
 	
 	// CORS에 사용. 내쪽에서 저쪽으로 데이터를 줄 때
 	// 커피를 파는 샵 리스트를 보내줌 (파라미터: 커피 id)
